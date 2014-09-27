@@ -11,6 +11,6 @@ venv/
 virtenv/
 dist/
 build/
-
+environment/
 
 environment/*
