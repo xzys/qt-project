@@ -20,6 +20,10 @@ function requestListings (category) {
 	);
 }
 
+function requestSignOut(){
+	window.location.href = "http://localhost:8000/logout";
+}
+
 $(document).ready(function() {
 	var pathname = window.location.pathname;
 	if (pathname.indexOf("textbooks") != -1) {
@@ -29,4 +33,8 @@ $(document).ready(function() {
 		$("#tickets").addClass("activeCategory");
 		requestListings('B');
 	}
+
+	$("#SignOut").click(function() {
+		requestSignOut();
+	});
 });

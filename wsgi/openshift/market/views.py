@@ -18,6 +18,7 @@ from django.core import serializers
 import django.contrib.auth
 from django.contrib.auth.hashers import make_password
 import datetime
+from  django.contrib.sessions.models import Session
 
 dthandler = lambda obj: (obj.isoformat() 
                         if isinstance(obj, datetime.datetime) 
@@ -98,15 +99,9 @@ def get_json(request, action):
 
         return HttpResponse(jsondata, content_type='application/json')
 
-
-# login requests
-def login_req(request):
-	#redirect()
-	pass
-
-def logout_req(request):
-	pass
-
+def request_log_out(request):
+	django.contrib.auth.logout(request)
+	return redirect("/login/")
 
 
 # frontend views
@@ -150,6 +145,10 @@ def default(request):
 """
 def home(request, category):
 
+	session = Session.objects.get(session_key=request.session.session_key)
+	uid = session.get_decoded().get('_auth_user_id')
+	user = User.objects.get(pk=uid)
+
 	context = { 
 		'subgroups' : (
 				{ 'pk' : 1, 'name' : 'CS 4411'},
@@ -159,7 +158,7 @@ def home(request, category):
 				{ 'pk' : 1, 'name' : 'North Campus', 'longitude' : 0.1, 'latitude' : 0.2},
 				{ 'pk' : 2, 'name' : 'West Campus', 'longitude' : 0.4, 'latitude' : 0.1},
 			 ), 
-		
+		'netid':user.username,
 		# 'filters': ItemGroup.objects.filter(type=category),
 		# 'filters': ItemGroup.objects.filter(type=category),
 		# 'listings' : get_listings(category),
