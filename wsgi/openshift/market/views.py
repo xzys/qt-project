@@ -1,8 +1,34 @@
 from django.shortcuts import render, render_to_response
+import json
+from django.core import serializers
+
+# backend views
+
+"""this will give you all the listings in the current view"""
+def get_json():
+	results = {}
+
+	results['listings'] = serializers.serialize('python',
+		Items.objects.filter(),
+		fields=(
+			
+			)
+		)
+	pass
+
+def login_req():
+	pass
+
+def logout_req():
+	pass
+
+def 
 
 
-# Create your views here.
 
+
+
+# frontend views
 def home(request):
 	# print "HOME SWETT HOME"
 	return render_to_response("market/index.html")
