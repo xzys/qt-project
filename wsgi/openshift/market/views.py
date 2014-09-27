@@ -173,6 +173,7 @@ def default(request):
 """post listing 
 """
 def post(request):
+	print("POST GENKI")
 	return render(request, "market/post.html")
 
 
