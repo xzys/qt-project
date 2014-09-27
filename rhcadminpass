@@ -1,0 +1,19 @@
+sachin@sachin-UX302LA ~/Dropbox/QTPIZE $ rhc add-cartridge postgresql-9.2 --app django
+Adding postgresql-9.2 to application 'django' ... done
+
+postgresql-9.2 (PostgreSQL 9.2)
+-------------------------------
+  Gears:          Located with python-2.7
+  Connection URL: postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT
+  Database Name:  django
+  Password:       DZPJAX6cGULu
+  Username:       admindg9sssk
+
+PostgreSQL 9.2 database added.  Please make note of these credentials:
+
+   Root User: admindg9sssk
+   Root Password: DZPJAX6cGULu
+   Database Name: django
+
+Connection URL: postgresql://$OPENSHIFT_POSTGRESQL_DB_HOST:$OPENSHIFT_POSTGRESQL_DB_PORT
+sachin@sachin-UX302LA ~/Dropbox/QTPIZE $ 
