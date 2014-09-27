@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
 from django.contrib.auth.decorators import login_required
 
 from market.models import \
@@ -18,7 +19,7 @@ QUERY PARAMETERS
 
 
 """
-@login_required
+# @login_required
 def get_json(request, action):
 	# REFERENCE from market.models.Item
 	# ITEM_TYPES = (
@@ -29,7 +30,7 @@ def get_json(request, action):
 
 	# assert
 	# request.method == 'GET':
-	if action == 'get_json':
+	if action == 'getjson':
 		results = {}
 		
 		# top level category 
@@ -57,7 +58,7 @@ def get_json(request, action):
 				)
 
 		# tickets
-		if category == 'B':
+		elif category == 'B':
 			results['listings'] = serializers.serialize('python',
 				Tickets.objects.filter(),
 				fields=(
@@ -65,17 +66,19 @@ def get_json(request, action):
 					'date',
 					)
 				)
+		else:
+			results['listings'] = []
 
 		jsondata = json.dumps({
 			'filters' : results['filters'],
-			'listings' : results['listings']
+			'listings' : results['listings'],
 			})
 		return HttpResponse(jsondata, content_type='application/json')
 
-def login_req():
+def login_req(request):
 	pass
 
-def logout_req():
+def logout_req(request):
 	pass
 
 
