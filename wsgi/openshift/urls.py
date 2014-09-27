@@ -11,5 +11,7 @@ urlpatterns = patterns('',
     url(r'^home/', 'views.home', name='home'),
     url(r'^api/(?P<action>[_a-z]+)', 'market.views.get_json', name='api'),
     
-    url(r'^$', 'market.views.home', name='home'),
+    url(r'^$', 'market.views.default', name='home'),
+    url(r'^$/(?P<category>[_a-z]+)', 'market.views.home', name='home'),
+
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
