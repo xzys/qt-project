@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     
 
     url(r'^login/', 'market.views.login', name='login'),
+    # url(r'^post/', 'market.views.login', name='login'),
     url(r'^home/', 'views.home', name='home'),
     url(r'^api/(?P<action>[_a-z]+)', 'market.views.api_request', name='api'),
     
