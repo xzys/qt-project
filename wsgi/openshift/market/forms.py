@@ -1,7 +1,11 @@
-from django.forms import ModelForm
+from django.forms import *
 from django.contrib.auth.models import User
 
-class UserForm(ModelForm):
-	class Meta:
-		model = User
-		fields = ['username','password']
+class UserForm(Form):
+	username = CharField(label='Your name', max_length=100)
+	password = CharField(label='Your name', max_length=100)
+
+	def __init__(self, *args, **kwargs):
+		super(Form, self).__init__(*args, **kwargs)
+		self.fields['username'].widget.attrs.update({'class' : 'form-netid','placeholder':'Net ID', 'type':"text"})
+		self.fields['password'].widget.attrs.update({'class' : 'form-password','placeholder':'Password', 'type':"password"})

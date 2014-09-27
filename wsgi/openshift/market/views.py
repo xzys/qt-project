@@ -1,16 +1,16 @@
-<<<<<<< HEAD
+
 from django.shortcuts import render, render_to_response, redirect
 from .forms import UserForm
-=======
-from django.shortcuts import render, render_to_response
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
+from django.http import \
+	HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
 from django.contrib.auth.decorators import login_required
-
 from market.models import \
 	UserProfile, Location, Offer, ItemGroup, Item, Textbook, Ticket
->>>>>>> 6357bb98854c762800bf739be7e272abfb933f4d
 import json
+from django.contrib.auth.models import User
 from django.core import serializers
+import django.contrib.auth
+from django.contrib.auth.hashers import make_password
 
 # backend views
 
@@ -81,21 +81,11 @@ def get_json(request, action):
 		return HttpResponse(jsondata, content_type='application/json')
 
 def login_req(request):
-<<<<<<< HEAD
-	redirect()
-=======
+	#redirect()
 	pass
->>>>>>> 6357bb98854c762800bf739be7e272abfb933f4d
 
 def logout_req(request):
 	pass
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 6357bb98854c762800bf739be7e272abfb933f4d
-
 
 
 # frontend views
@@ -108,9 +98,23 @@ def login(request):
 	if request.method == 'POST':
 		form = UserForm(request.POST)
 		if form.is_valid():
-			form.save()
-		return redirect('/')
-	# GET Request
-	else:
+			form_data = form.cleaned_data
+			if request.POST.get('Login') == 'Login':
+				user = django.contrib.auth.authenticate(username=form_data['username']+"@cornell.edu",password=form_data['password'])
+				if user is not None:
+					django.contrib.auth.login(request,user)
+					return redirect('/')
+				else:
+					return redirect('/login/')
+			elif request.POST.get('Register') == 'Register':
+				try:
+					User.objects.get(email=form_data['username'])
+				except Exception as e:
+					new_user = User(username=form_data['username']+"@cornell.edu",password=make_password(form_data['password']))
+					new_user.save()
+					new_user = django.contrib.auth.authenticate(username=new_user.username,password=form_data['password'])
+					django.contrib.auth.login(request,new_user)
+					return redirect('/')
+	elif request.method == 'GET':
 		form = UserForm()
 		return render(request,"market/login.html",{'form' : form})

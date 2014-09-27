@@ -12,9 +12,10 @@
 	<img class="laptopimage" src="{% static 'img/laptopimage.jpg' %}"></img>
 	<h1>Join the Modern<br>Marketplace</h1>
 	<form method='POST' action=''> {% csrf_token %}
-		{{ form }}
-		 <input type="submit" value="Login" />
-		 <input type="submit" value="Register" />
+		{{ form.username }}<span class="form-atcornell"> @cornell.edu</span><br>
+		{{ form.password }}<br>
+		 <button type="submit" value="Login" name="Login" class="btn">Login</button>
+		 <button type="submit" value="Register" name="Register" class="btn">Register</button>
 	</form>
 
 
