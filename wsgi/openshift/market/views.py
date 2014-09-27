@@ -11,19 +11,18 @@ from django.core import serializers
 from django.contrib.auth.models import User
 from market.models import \
 	UserProfile, Location, Offer, ItemGroup, Item, Textbook, Ticket
-import random
-import json
 from django.contrib.auth.models import User
 from django.core import serializers
-import django.contrib.auth
 from django.contrib.auth.hashers import make_password
 import datetime
 from  django.contrib.sessions.models import Session
+import random, json, datetime
+import django.contrib.auth
 
 dthandler = lambda obj: (obj.isoformat() 
-                        if isinstance(obj, datetime.datetime) 
-                        or isinstance(obj, datetime.date)
-                        else None)
+						if isinstance(obj, datetime.datetime) 
+						or isinstance(obj, datetime.date)
+						else None)
 # backend views
 
 """this will give you all the listings in the current view
@@ -40,8 +39,9 @@ RETURNS
 	user_locations
 	listings
 """
+
 # @login_required
-def get_json(request, action):
+def api_request(request, action):
 	# assert
 	# request.method == 'GET':
 	if action == 'getjson':
@@ -90,14 +90,39 @@ def get_json(request, action):
 		results['filters'] = serializers.serialize('python',
 			ItemGroup.objects.filter(type=category))
 
-        results['listings'] = get_listings(category)
+		results['listings'] = get_listings(category)
 
-        jsondata = json.dumps({
+		jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
 			}, default=dthandler)
 
-        return HttpResponse(jsondata, content_type='application/json')
+		return HttpResponse(jsondata, content_type='application/json')
+
+	elif action == 'post_listing':
+		# top level category 
+		category = request.GET.get('category', '')
+
+		location = request.GET.get('location', '')
+		loc = Location.objects.filter(pk = location)
+
+		if category == 'textbook':
+			tb = Textbook()
+			tb.seller = User.objects.all()[0]
+			tb.price = round(random.random() * 100, 2)
+			tb.condition = 'C' + str(random.choice(range(5)))
+			tb.isbn = str(random.random() * 10000 )
+			tb.title = 'Intro to ' + titles[random.choice(range(len(titles)))]
+			tb.location = loc
+			tb.save()
+		elif category == 'ticket':
+			tx = Ticket()
+			tx.seller = User.objects.all()[0]
+			tx.price = round(random.random() * 100, 2)
+			tx.location = loc
+			tx.event = events[random.choice(range(len(events)))]
+			tx.date = datetime.date.today()
+			tx.save()
 
 def request_log_out(request):
 	django.contrib.auth.logout(request)
@@ -135,12 +160,19 @@ def login(request):
 
 
 
+# frontend views
 """default homepage will be textbooks"""
 def default(request):
 	return HttpResponseRedirect('/textbooks')
 
 
-# frontend views
+"""post listing 
+"""
+def post(request):
+	print("POST GENKI")
+	return render(request, "market/post.html")
+
+
 """initial load
 """
 def home(request, category):

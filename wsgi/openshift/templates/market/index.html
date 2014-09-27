@@ -30,7 +30,7 @@
 </head>
 
 <body>
-   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header" style = "margin: 0 auto";>
@@ -62,6 +62,8 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -84,17 +86,19 @@
 
                         <div class="well well-lg">
                             <!-- <div class="panel-body"> -->
-                            <span>type:</span>
+                            <span>Type:</span>
+
                             <form id="filters" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
                             
                             {% for subg in subgroups %}
-
+                                
                                 <input type="checkbox" value="{{ subg.pk }}"/><span class="checkbox-text">{{ subg.name }}</span>
+                                
                             {% endfor %}
                             
                             </form>
 
-                            <span>location:</span>
+                            <span>Location:</span>
 
                             <form id="locations" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
                             {% for loc in locations %}
@@ -102,6 +106,22 @@
                             {% endfor %}
                             </form>
                             <!-- </div> -->
+                        </div>
+
+                        <div class="sort-line" style="margin-bottom: 20px">
+
+                            
+                            <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort by: <span class="caret"></span></a>
+
+                              <ul class="dropdown-menu" role="menu" style="right: 30px;">
+                                <li><a href="#">Price</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Location</a></li>
+                              </ul>
+
+                            </li>
+
                         </div>
                         
                         <!-- <div class="well well-sm">

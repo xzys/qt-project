@@ -9,11 +9,20 @@ function requestListings (category) {
 				var fields = listingsResponse[i].fields;
 				var toAppend = '<div class="panel panel-default"><div class="panel-body">';
 				if (category == 'A') {
-					toAppend = toAppend + fields.title + '<br>' + fields.isbn + '<br>' + fields.condition;
+					toAppend = toAppend + fields.title;
+					toAppend = toAppend + '<span class="centerAlign">$50</span>';
+					toAppend = toAppend + '<br>' + fields.isbn;
+					toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
+					toAppend = toAppend + '<br>' + fields.condition;
 				} else if (category == 'B') {
-					toAppend = toAppend + fields.event + '<br>' + fields.date;
+					toAppend = toAppend + fields.event;
+					toAppend = toAppend + '<span class="centerAlign">$10</span>';
+					console.log(fields.date);
+					var date = new Date(fields.date);
+					toAppend = toAppend + '<br>' + date.toLocaleString("en-US");
+					toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
 				}
-				toAppend + '</div></div></div>';
+				toAppend = toAppend + '<br></div></div></div>';
 				listings.append(toAppend);
 			}
 		}
