@@ -1,2 +1,13 @@
-.pyc
-envornment/*
+*.py[co]
+*.sw[po]
+*.bak
+*.orig
+*~
+*.log
+*.egg-info
+.project
+.pydevproject
+venv/
+virtenv/
+dist/
+build/
