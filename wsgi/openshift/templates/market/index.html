@@ -84,12 +84,12 @@
 
                         <div class="well well-lg">
                             <!-- <div class="panel-body"> -->
-                            <form id="filters" class="ac-custom ac-checkbox ac-checkmark">
+                            <form id="filters" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
                             {% for subg in subgroups %}
                                 <input type="checkbox" value="{{ subg.pk }}"/><span class="checkbox-text">{{ subg.name }}</span>
                             {% endfor %}
                             </form>
-                            <form id="locations" class="ac-custom ac-checkbox ac-checkmark">
+                            <form id="locations" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
                             {% for loc in locations %}
                                 <input type="checkbox" value="{{ loc.pk }}"/><span class="checkbox-text">{{ loc.name }}</span>
                             {% endfor %}
