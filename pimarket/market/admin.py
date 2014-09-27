@@ -11,6 +11,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
 	pass
+	
 @admin.register(Offer)
 class OfferAdmin(admin.ModelAdmin):
 	pass
