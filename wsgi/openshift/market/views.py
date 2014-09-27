@@ -1,18 +1,23 @@
+from django.shortcuts import render, render_to_response, redirect
+from .forms import UserForm
+from django.http import \
+	HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response
 from django.core.context_processors import csrf
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
 from django.contrib.auth.decorators import login_required
-
-
 from django.core import serializers
 from django.contrib.auth.models import User
 from market.models import \
 	UserProfile, Location, Offer, ItemGroup, Item, Textbook, Ticket
-
 import random
 import json
+from django.contrib.auth.models import User
+from django.core import serializers
+import django.contrib.auth
+from django.contrib.auth.hashers import make_password
 import datetime
-
 
 dthandler = lambda obj: (obj.isoformat() 
                         if isinstance(obj, datetime.datetime) 
@@ -96,11 +101,41 @@ def get_json(request, action):
 
 # login requests
 def login_req(request):
+	#redirect()
 	pass
 
 def logout_req(request):
 	pass
 
+
+
+# frontend views
+
+def login(request):
+	# POST request
+	if request.method == 'POST':
+		form = UserForm(request.POST)
+		if form.is_valid():
+			form_data = form.cleaned_data
+			if request.POST.get('Login') == 'Login':
+				user = django.contrib.auth.authenticate(username=form_data['username']+"@cornell.edu",password=form_data['password'])
+				if user is not None:
+					django.contrib.auth.login(request,user)
+					return redirect('/')
+				else:
+					return redirect('/login/')
+			elif request.POST.get('Register') == 'Register':
+				try:
+					User.objects.get(email=form_data['username'])
+				except Exception as e:
+					new_user = User(username=form_data['username']+"@cornell.edu",password=make_password(form_data['password']))
+					new_user.save()
+					new_user = django.contrib.auth.authenticate(username=new_user.username,password=form_data['password'])
+					django.contrib.auth.login(request,new_user)
+					return redirect('/')
+	elif request.method == 'GET':
+		form = UserForm()
+		return render(request,"market/login.html",{'form' : form})
 
 
 
@@ -134,15 +169,6 @@ def home(request, category):
 
 	context.update(csrf(request))
 	return render(request, "market/index.html", context)
-
-
-
-def login(request):
-	context = {}
-	context.update(csrf(request))
-	return render(request, "market/login.html", context)
-
-
 
 
 """helper method to get listings"""
@@ -180,3 +206,4 @@ def get_listings(category):
 		# SORTING HERE
 
 	return result
+

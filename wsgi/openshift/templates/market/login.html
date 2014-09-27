@@ -11,11 +11,19 @@
 	<h2>Pi Market @ Cornell University</h2>
 	<img class="laptopimage" src="{% static 'img/laptopimage.jpg' %}"></img>
 	<h1>Join the Modern<br>Marketplace</h1>
-	<form>
+	<form method='POST' action=''> {% csrf_token %}
+		{{ form.username }}<span class="form-atcornell"> @cornell.edu</span><br>
+		{{ form.password }}<br>
+		 <button type="submit" value="Login" name="Login" class="btn">Login</button>
+		 <button type="submit" value="Register" name="Register" class="btn">Register</button>
+	</form>
+
+
+<!-- 	<form>
 		<input type="text" class="form-netid" placeholder="Net ID"><span class="form-atcornell"> @cornell.edu</span><br>
 		<input type="password"  class="form-password" placeholder="Password"><br>
 		<button type="submit" class="btn">Login</button>
 		<button type="submit" class="btn">Register</button>
-	</form>
+	</form> -->
 </body>
 </html>
