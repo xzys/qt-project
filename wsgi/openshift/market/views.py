@@ -97,20 +97,20 @@ def api_request(request, action):
 		return HttpResponse(jsondata, content_type='application/json')
 
 	elif action == 'post_listing':
-	# """this wll add a post to the thing
+		"""this wll add a post to the thing
 
-	# QUERY PARAMETERS
-	# 	category e.g. A, B, C
+		QUERY PARAMETERS
+			category e.g. A, B, C
 
-	# 	locations e.g. their keys
-	# 	itemgroups e.g. their keys
+			locations e.g. their keys
+			itemgroups e.g. their keys
 
-	# RETURNS
-	# 	filters
-	# 	user_groups
-	# 	user_locations
-	# 	listings
-	# """
+		RETURNS
+			filters
+			user_groups
+			user_locations
+			listings
+		"""
 
 		# top level category 
 		# postdata = json.loads(request.body)
@@ -163,16 +163,7 @@ def api_request(request, action):
 			tx.event = ItemGroup.objects.filter(pk=subgroup_pk)[0].name
 			tx.date = event_date
 			tx.save()
-
-
-# login requests
-def login_req(request):
-	#redirect()
-	pass
-
-def logout_req(request):
-	pass
-
+	# elif
 
 
 # frontend views
@@ -215,7 +206,7 @@ def default(request):
 """post listing 
 """
 def post(request):
-	print("POST GENKI")
+	print "POST GENKI"
 	return render(request, "market/post.html")
 
 
