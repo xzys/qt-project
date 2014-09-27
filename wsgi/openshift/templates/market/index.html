@@ -80,11 +80,18 @@
                         <br><br>
                         <form id="filters">
 
-                        {% for filter in filters %}
+                        {% for subg in subgroups %}
 
-                            <input type="checkbox" value="{{ filter.pk }}"/>{{ filter.name }}<br>
+                            <input type="checkbox" value="{{ subg.pk }}"/>{{ subg.name }}<br>
 
                         {% endfor %}
+
+                        {% for loc in locations %}
+
+                            <input type="checkbox" value="{{ loc.pk }}"/>{{ loc.name }}<br>
+
+                        {% endfor %}
+
 
 
                         </form>
