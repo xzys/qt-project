@@ -2,12 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# Create your models here.
+
 class UserProfile(models.Model):
-	# reference to django User
+	# simple reference to django User
 	user = models.OneToOneField(User, primary_key=true)
 
-	# 
+	# Preferences
 	groups = models.ManyToManyField('ItemGroup',
 		related_name = 'a+',
 		null = True, blank = False)
@@ -28,7 +28,7 @@ class Location(model.Model):
 	longitude = models.FloatField() 
 
 	def __unicode__(self):
-		return self.user.username
+		return str(self.longitude) + ', ' + str(self.lattitude)
 
 
 
@@ -37,6 +37,9 @@ class Location(model.Model):
 ############### ITEMS ######################
 class ItemGroup(model.Model):
 	name = models.CharField(max_length=100)
+
+	def __unicode__(self):
+		return self.name
 
 # represents any item to sell
 class Item(models.Model):
@@ -53,9 +56,17 @@ class Textbook(Item):
 	title = models.CharField(max_length=100)
 	title = models.CharField(max_length=100)
 
+    def __unicode__(self):
+        return self.title, 'by:', self.author
+
+
+
 class Ticket(Item):
 	event = models.CharField(max_length=100)
 	date = models.DateTimeField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.event
 
 
 
