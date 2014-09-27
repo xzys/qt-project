@@ -5,21 +5,21 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
 	# simple reference to django User
-	user 		= models.OneToOneField(User, primary_key=true)
+	user 		= models.OneToOneField(User, primary_key=True)
 
 	# Preferences
-	groups 		= models.ManyToManyField('ItemGroup',
-		related_name = 'a+',
+	groups 		= models.ManyToManyField('ItemGroup',	\
+		related_name = 'a+',	\
 		null = True, blank = False)
 
-	locations 	= models.ManyToManyField('Location',
-		related_name = 'b+')
+	locations 	= models.ManyToManyField('Location',	\
+		related_name = 'b+',	\
 		null = True, blank = False)
 	
 	def __unicode__(self):
 		return self.user.username
 
-class Location(model.Model):
+class Location(models.Model):
 	name 		= models.CharField(max_length=100)
 	lattitude 	= models.FloatField()
 	longitude 	= models.FloatField() 
@@ -29,8 +29,8 @@ class Location(model.Model):
 
 class Offer(models.Model):
 	item         = models.ForeignKey('Item')
-	buyer        = models.ForeignKey('UserProfile')
-	seller       = models.ForeignKey('UserProfile')
+	user        = models.ForeignKey('UserProfile')
+	user       = models.ForeignKey('UserProfile')
 	date_created = models.DateField(auto_now_add=True)
 	date_sold    = models.DateField()
 
@@ -38,7 +38,7 @@ class Offer(models.Model):
 
 
 ############### ITEMS ######################
-class ItemGroup(model.Model):
+class ItemGroup(models.Model):
 	name 		= models.CharField(max_length=100)
 
 	def __unicode__(self):
@@ -48,9 +48,6 @@ class ItemGroup(model.Model):
 class Item(models.Model):
 	seller		= models.ForeignKey(User, related_name='r+')
 	price		= models.DecimalField(max_digits=6, decimal_places=2)
-
-	class Meta:
-		abstract = True
 
 class Textbook(Item):
 	CONDITION_CHOICES = (
@@ -66,16 +63,16 @@ class Textbook(Item):
 	title 		= models.CharField(max_length=100)
 
 	# chooses from above
-	condition 	= models.CharField(max_length=100
+	condition 	= models.CharField(max_length=100,	\
 		choices = CONDITION_CHOICES)
 
-    def __unicode__(self):
-        return self.title, 'by:', self.author
+	def __unicode__(self):
+		return self.title, 'by:', self.author
 
 class Ticket(Item):
 	event 		= models.CharField(max_length=100)
 	date 		= models.DateTimeField(null=True, blank=True)
 
-    def __unicode__(self):
-        return self.event
+	def __unicode__(self):
+		return self.event
 
