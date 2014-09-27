@@ -7,6 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^admin/', include(admin.site.urls)),
+    
     url(r'^login/', 'market.views.login', name='login'),
     url(r'^home/', 'views.home', name='home'),
     url(r'^api/(?P<action>[_a-z]+)', 'market.views.get_json', name='api'),

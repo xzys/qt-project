@@ -119,8 +119,16 @@ def default(request):
 """
 def home(request, category):
 	context = { 
-		'filters': ['CS 3080', 'CS 3140', 'CS 4411'],
+		'filters': [
+				( pk : 1, name : 'CS 4411'),
+				( pk : 2, name : 'MATH 3070'),
+			 ],
+		'locations': [
+				( pk : 1, name : 'North Campus', longitude : 0.1, latitude : 0.2),
+				( pk : 2, name : 'West Campus', longitude : 0.4, latitude : 0.1),
+			 ],
 		
+		# 'filters': ItemGroup.objects.filter(type=category),
 		# 'filters': ItemGroup.objects.filter(type=category),
 		# 'listings' : get_listings(category),
 	}
