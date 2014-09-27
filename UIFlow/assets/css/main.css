@@ -8,7 +8,7 @@
  */
 
 body {
-  background-color: #f2f2f2;
+    background-color: #f2f2f2;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     font-size: 16px;
@@ -89,7 +89,8 @@ a:after {
 }
 
 .navbar-default {
-    background-color: #3498db;
+    /*background-color: #3498db;*/
+    background-color: #e74c3c;
     border-color: transparent;
 }
 
@@ -111,33 +112,49 @@ a:after {
 
 
 .form-group {
-    color:white;
+    color: black;
     font-size: 20px;
 }
 .form-netid {
     height: 42px;
     font-size: 18px;
     width: 80px;
+    padding-left: 5px;
 }
 .form-password {
     height: 42px;
     font-size: 18px;
-    width: 200px;
+    width: 195px;
     margin-top: 10px;
+    padding-left: 5px;
 }
-.btn-warning{ 
+.btn-enter{ 
     margin-top: 10px;
+    color: #ffffff;
+    /*background-color: #f0ad4e;*/
+    background-color: #9e9e9e;
+    /*border-color: #eea236;*/
+    border-color: #b8b8b8;
+}
+.btn-enter:hover, .btn-enter:focus, .btn-enter:active, .btn-enter.active, .open .dropdown-toggle.btn-enter {
+    /*background-color: #ed9c28;*/
+    background-color: #b8b8b8;
+    /*border-color: #d58512;*/
+    border-color: #9e9e9e;
 }
 i {
     margin: 8px;
-    color: #3498db; 
+    /*color: #3498db; */
+    color: #e74c3c; 
 }
 
 
 /* HeaderWrap */
+body {
+    /*background-color: #3498db;*/
+    background-color: #e74c3c;
+}
 #headerwrap {
-    /* background: url(../img/bg01.jpg) no-repeat center top; */
-    background-color: #3498db;
     margin-top: -20px;
     padding-top:200px;
     background-attachment: relative;
