@@ -11,13 +11,11 @@ from django.core import serializers
 from django.contrib.auth.models import User
 from market.models import \
 	UserProfile, Location, Offer, ItemGroup, Item, Textbook, Ticket
-import random
-import json
 from django.contrib.auth.models import User
 from django.core import serializers
-import django.contrib.auth
 from django.contrib.auth.hashers import make_password
-import datetime
+import random, json, datetime
+import django.contrib.auth
 
 dthandler = lambda obj: (obj.isoformat() 
                         if isinstance(obj, datetime.datetime) 
