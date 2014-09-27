@@ -158,9 +158,7 @@ def home(request, category):
 		'locations': (
 				{ 'pk' : 1, 'name' : 'North Campus', 'longitude' : 0.1, 'latitude' : 0.2},
 				{ 'pk' : 2, 'name' : 'West Campus', 'longitude' : 0.4, 'latitude' : 0.1},
-			 ),
-
-
+			 ), 
 		
 		# 'filters': ItemGroup.objects.filter(type=category),
 		# 'filters': ItemGroup.objects.filter(type=category),
