@@ -66,15 +66,10 @@
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
+            <ul class="sidebar-nav" style="margin-top: 10px">
                 <li class="sidebar-brand"></li>
-<<<<<<< Updated upstream
                 <li><a href="#"><h2>Textbooks</h2></a></li>
                 <li><a href="#"><h2>Tickets</h2></a></li>
-=======
-                <li><a id="textbooks" href="/textbooks"><font size="3">Textbooks</font></a></li>
-                <li><a id="tickets" href="/tickets"><font size="3">Tickets</font></a></li>
->>>>>>> Stashed changes
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -86,14 +81,15 @@
                     <div class="col-lg-12">
                         <br><br>
                         
+
                         <div class="well well-lg">
                             <!-- <div class="panel-body"> -->
-                            <form id="filters">
+                            <form id="filters" class="ac-custom ac-checkbox ac-checkmark">
                             {% for subg in subgroups %}
                                 <input type="checkbox" value="{{ subg.pk }}"/><span class="checkbox-text">{{ subg.name }}</span>
                             {% endfor %}
                             </form>
-                            <form>
+                            <form id="locations" class="ac-custom ac-checkbox ac-checkmark">
                             {% for loc in locations %}
                                 <input type="checkbox" value="{{ loc.pk }}"/><span class="checkbox-text">{{ loc.name }}</span>
                             {% endfor %}
