@@ -85,7 +85,8 @@
                             <!-- <div class="panel-body"> -->
                             <form id="filters">
                             {% for subg in subgroups %}
-                                <input type="checkbox" value="{{ subg.pk }}"/>{{ subg.name }}<br>
+                                <input type="checkbox" class="checkbox" value="{{ subg.pk }}"/>
+                                <span>{{ subg.name }}</span>
                             {% endfor %}
                             {% for loc in locations %}
                                 <input type="checkbox" value="{{ loc.pk }}"/>{{ loc.name }}<br>
