@@ -39,7 +39,7 @@ class ItemGroup(model.Model):
 
 # represents any item to sell
 class Item(models.Model):
-	user1 = models.ForeignKey(User, related_name='r+')
+	seller = models.ForeignKey(User, related_name='r+')
 	# price is deciman 2 units
 	price = models.DecimalField(max_digits=6, decimal_places=2)
 
@@ -48,10 +48,19 @@ class Item(models.Model):
 
 
 class Textbook(Item):
+	CONDITION_CHOICES = (
+        (0, 'Poor'),
+        (1, 'Heavily Used'),
+        (2, 'Lightly Used'),
+        (3, "Its' aight"),
+        (4, 'New'),
+    )
+
 	author = models.CharField(max_length=100)
 	ISBN = models.CharField(max_length=100)
 	title = models.CharField(max_length=100)
-	title = models.CharField(max_length=100)
+	condition = models.CharField(max_length=100
+		choices = CONDITION_CHOICES)
 
     def __unicode__(self):
         return self.title, 'by:', self.author
