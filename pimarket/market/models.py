@@ -35,7 +35,6 @@ class Offer(models.Model):
 	object_id = models.PositiveIntegerField()
 	item = generic.GenericForeignKey('content_type', 'object_id')
 
-
 	buyer        = models.ForeignKey('UserProfile', \
 		related_name = 'd+')
 	seller       = models.ForeignKey('UserProfile',	\
