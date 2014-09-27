@@ -1,14 +1,15 @@
 <!doctype html>
 <html>
 <head>
+	{% load staticfiles %}
 	<title>Pi Market</title>
 	<meta charset="utf-8"/>
-    <link rel="stylesheet" type="text/css" href="splash.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/splash.css' %}" />
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	<h2>Pi Market @ Cornell University</h2>
-	<img class="laptopimage" src="laptopimage.jpg"></img>
+	<img class="laptopimage" src="{% static 'img/laptopimage.jpg' %}"></img>
 	<h1>Join the Modern<br>Marketplace</h1>
 	<form>
 		<input type="text" class="form-netid" placeholder="Net ID"><span class="form-atcornell"> @cornell.edu</span><br>
