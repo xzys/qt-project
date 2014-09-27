@@ -79,12 +79,21 @@
                     <div class="col-lg-12">
                         <br><br>
                         <form id="filters">
+<<<<<<< Updated upstream
                         {% for subg in subgroups %}
                             <input type="checkbox" value="{{ subg.pk }}"/>{{ subg.name }}<br>
                         {% endfor %}
                         {% for loc in locations %}
                             <input type="checkbox" value="{{ loc.pk }}"/>{{ loc.name }}<br>
                         {% endfor %}
+=======
+                            {% for subg in subgroups %}
+                                <input type="checkbox" value="{{ subg.pk }}"/>{{ subg.name }}<br>
+                            {% endfor %}
+                            {% for loc in locations %}
+                                <input type="checkbox" value="{{ loc.pk }}"/>{{ loc.name }}<br>
+                            {% endfor %}
+>>>>>>> Stashed changes
                         </form>
                         <br><br><br>
                         <div class="well well-sm">
