@@ -46,40 +46,14 @@ def get_json(request, action):
 		results['filters'] = serializers.serialize('python',
 			ItemGroup.objects.filter(type=category))
 
+        results['listings'] = get_listings(category)
 
-		# now add in your foreign key fields one by one for all of them
-        for r in results['nearby'] + results['friends'] + results['profile']:
-            # get the userprofile whose user matches this users pk
-            try:
-                # you can give this specific fields if you decoide later
-                r['fields']['userprofile'] = serializers.serialize('python', 
-                    [UserProfile.objects.get(user=User.objects.get(pk=r['pk']))],
-                        # fields=(),
-                                )[0]
-
-                # love this line
-                # get behavior names
-                r['fields']['userprofile']['fields']['behaviors'] = serializers.serialize('python', 
-                    [Behavior.objects.get(pk=b) for b in r['fields']['userprofile']['fields']['behaviors']],
-                        fields=('name'),
-                                )
-            except ObjectDoesNotExist, e:
-                # some Users don't have something, its fine NOT
-                raise e
-
-        # gottta give default behaviors
-        results['behaviors'] = serializers.serialize('python',
-            Behavior.objects.all())
-
-
-        result['listings'] = get_listings(category)
-
-
-		jsondata = json.dumps({
+        jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
 			})
-		return HttpResponse(jsondata, content_type='application/json')
+
+        return HttpResponse(jsondata, content_type='application/json')
 
 
 """helper method to get listings"""
@@ -146,7 +120,7 @@ def default(request):
 def home(request, category):
 	context = { 
 		'filters': ItemGroup.objects.filter(type=category),
-		'listsings' : get_listings(cargory),
+		'listings' : get_listings(category),
 	}
 
 	return render(request, "market/index.html", context)
