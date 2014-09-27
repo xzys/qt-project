@@ -18,9 +18,9 @@ import random, json, datetime
 import django.contrib.auth
 
 dthandler = lambda obj: (obj.isoformat() 
-                        if isinstance(obj, datetime.datetime) 
-                        or isinstance(obj, datetime.date)
-                        else None)
+						if isinstance(obj, datetime.datetime) 
+						or isinstance(obj, datetime.date)
+						else None)
 # backend views
 
 """this will give you all the listings in the current view
@@ -88,25 +88,24 @@ def api_request(request, action):
 		results['filters'] = serializers.serialize('python',
 			ItemGroup.objects.filter(type=category))
 
-        results['listings'] = get_listings(category)
+		results['listings'] = get_listings(category)
 
-        jsondata = json.dumps({
+		jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
 			}, default=dthandler)
 
-        return HttpResponse(jsondata, content_type='application/json')
+		return HttpResponse(jsondata, content_type='application/json')
 
-    elif action == 'post_listing':
+	elif action == 'post_listing':
 		# top level category 
 		category = request.GET.get('category', '')
 
 		location = request.GET.get('location', '')
 		loc = Location.objects.filter(pk = location)
 
-		if category == 'textbook'
-		
-		 	tb = Textbook()
+		if category == 'textbook':
+			tb = Textbook()
 			tb.seller = User.objects.all()[0]
 			tb.price = round(random.random() * 100, 2)
 			tb.condition = 'C' + str(random.choice(range(5)))
@@ -114,7 +113,7 @@ def api_request(request, action):
 			tb.title = 'Intro to ' + titles[random.choice(range(len(titles)))]
 			tb.location = loc
 			tb.save()
-		elif category == 'ticket'
+		elif category == 'ticket':
 			tx = Ticket()
 			tx.seller = User.objects.all()[0]
 			tx.price = round(random.random() * 100, 2)
@@ -123,7 +122,6 @@ def api_request(request, action):
 			tx.date = datetime.date.today()
 			tx.save()
 
-		return 
 
 # login requests
 def login_req(request):
@@ -166,12 +164,18 @@ def login(request):
 
 
 
+# frontend views
 """default homepage will be textbooks"""
 def default(request):
 	return HttpResponseRedirect('/textbooks')
 
 
-# frontend views
+"""post listing 
+"""
+def post(request):
+	return render(request, "market/post.html")
+
+
 """initial load
 """
 def home(request, category):
