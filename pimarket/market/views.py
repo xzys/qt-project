@@ -3,4 +3,5 @@ from django.shortcuts import render
 # Create your views here.
 
 def home(request):
-	print render_to_response("")
+	print "CALLED HOME"
+	print render_to_response("splash.html")
