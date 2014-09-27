@@ -9,7 +9,7 @@ urlpatterns = patterns('',
 
     url(r'^login/', 'market.views.login', name='login'),
     url(r'^home/', 'views.home', name='home'),
-    url(r'^api/(?P<action>[_a-z]+)', 'market.views.get_json', name='api'),
+    url(r'^api/(?P<action>[_a-z]+)', 'market.views.api_request', name='api'),
     
     url(r'^(?P<category>[_a-z]+)', 'market.views.home', name='home'),
     url(r'^$', 'market.views.default', name='home'),
