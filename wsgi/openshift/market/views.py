@@ -2,10 +2,14 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
 from django.contrib.auth.decorators import login_required
 
+
+from django.core import serializers
+from django.contrib.auth.models import User
 from market.models import \
 	UserProfile, Location, Offer, ItemGroup, Item, Textbook, Ticket
+
+import random
 import json
-from django.core import serializers
 
 # backend views
 
@@ -31,6 +35,28 @@ def get_json(request, action):
 	# assert
 	# request.method == 'GET':
 	if action == 'getjson':
+		
+		# make the random data 
+		titles = ('Math', 'Science', 'Philosophy', 'Social Sciences', 'Drinking', 'Computers')
+		locations = ('North Campus', 'West Campus', 'Collegetown')
+
+		loc = Location()
+		loc.name = locations[random.choice(range(len(locations)))]
+		loc.lattitude = random.random() * 10
+		loc.longitude = random.random() * 10
+		loc.save()
+		
+		tb = Textbook()
+		tb.seller = User.objects.all()[0]
+		tb.price = round(random.random() * 100, 2)
+		tb.condition = 'C' + str(random.choice(range(5)))
+		tb.isbn = str(random.random() * 10000 )
+		tb.title = 'Intro to ' + titles[random.choice(range(len(titles)))]
+		tb.location = loc
+		tb.save()
+
+
+
 		results = {}
 		
 		# top level category 
