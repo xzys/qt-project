@@ -1,4 +1,5 @@
 from django.shortcuts import render, render_to_response
+from django.core.context_processors import csrf
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
 from django.contrib.auth.decorators import login_required
 
@@ -82,6 +83,57 @@ def get_json(request, action):
         return HttpResponse(jsondata, content_type='application/json')
 
 
+# login requests
+def login_req(request):
+	pass
+
+def logout_req(request):
+	pass
+
+
+
+
+
+"""default homepage will be textbooks"""
+def default(request):
+	return HttpResponseRedirect('/textbooks')
+
+
+# frontend views
+"""initial load
+"""
+def home(request, category):
+
+	context = { 
+		'subgroups' : (
+				{ 'pk' : 1, 'name' : 'CS 4411'},
+				{ 'pk' : 2, 'name' : 'MATH 3070'},
+			 ),
+		'locations': (
+				{ 'pk' : 1, 'name' : 'North Campus', 'longitude' : 0.1, 'latitude' : 0.2},
+				{ 'pk' : 2, 'name' : 'West Campus', 'longitude' : 0.4, 'latitude' : 0.1},
+			 ),
+
+
+		
+		# 'filters': ItemGroup.objects.filter(type=category),
+		# 'filters': ItemGroup.objects.filter(type=category),
+		# 'listings' : get_listings(category),
+	}
+
+	context.update(csrf(request))
+	return render(request, "market/index.html", context)
+
+
+
+def login(request):
+	context = {}
+	
+	return render(request, "market/login.html", context)
+
+
+
+
 """helper method to get listings"""
 def get_listings(category):
 	# REFERENCE from market.models.Item
@@ -117,51 +169,3 @@ def get_listings(category):
 		# SORTING HERE
 
 	return result
-
-
-
-# login requests
-def login_req(request):
-	pass
-
-def logout_req(request):
-	pass
-
-
-
-
-
-"""default homepage will be textbooks"""
-def default(request):
-	return HttpResponseRedirect('/textbooks')
-
-
-# frontend views
-"""initial load
-"""
-def home(request, category):
-	context = { 
-		'subgroups' : (
-				{ 'pk' : 1, 'name' : 'CS 4411'},
-				{ 'pk' : 2, 'name' : 'MATH 3070'},
-			 ),
-		'locations': (
-				{ 'pk' : 1, 'name' : 'North Campus', 'longitude' : 0.1, 'latitude' : 0.2},
-				{ 'pk' : 2, 'name' : 'West Campus', 'longitude' : 0.4, 'latitude' : 0.1},
-			 ),
-
-
-		
-		# 'filters': ItemGroup.objects.filter(type=category),
-		# 'filters': ItemGroup.objects.filter(type=category),
-		# 'listings' : get_listings(category),
-	}
-
-	return render(request, "market/index.html", context)
-
-
-
-def login(request):
-	context = {}
-	
-	return render(request, "market/login.html", context)
