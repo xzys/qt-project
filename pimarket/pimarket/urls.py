@@ -7,6 +7,6 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'pimarket.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^splash/', 'market.views.home',name="home"),
     url(r'^admin/', include(admin.site.urls)),
 )

@@ -34,7 +34,6 @@ class Offer(models.Model):
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
 	item = generic.GenericForeignKey('content_type', 'object_id')
-
 	buyer        = models.ForeignKey('UserProfile', \
 		related_name = 'd+')
 	seller       = models.ForeignKey('UserProfile',	\
@@ -66,24 +65,13 @@ class Textbook(Item):
 		('C5', 'New'),
 	)
 
-	SHIRT_SIZES = (
-        ('S', 'Small'),
-        ('M', 'Medium'),
-        ('L', 'Large'),
-    )
-
+	condition 	= models.CharField(max_length=2,choices=CONDITION_CHOICES)
 	author 		= models.CharField(max_length=100)
 	isbn 		= models.CharField(max_length=100)
 	title 		= models.CharField(max_length=100)
 
-	# chooses from above
-	condition 	= models.CharField(max_length=2,	\
-		choices = CONDITION_CHOICES)
-
-	shirt_size = models.CharField(max_length=1, choices=SHIRT_SIZES)
-
 	def __unicode__(self):
-		return self.title, 'by:', self.author
+		return "%s by %s" % (str(self.title),str(self.author))
 
 class Ticket(Item):
 	event 		= models.CharField(max_length=100)
