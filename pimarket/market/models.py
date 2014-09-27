@@ -63,20 +63,28 @@ class Item(models.Model):
 
 class Textbook(Item):
 	CONDITION_CHOICES = (
-		(0, 'Poor'),
-		(1, 'Heavily Used'),
-		(2, 'Lightly Used'),
-		(3, "Its' aight"),
-		(4, 'New'),
+		('C1', 'Poor'),
+		('C2', 'Heavily Used'),
+		('C3', 'Lightly Used'),
+		('C4', "Its' aight"),
+		('C5', 'New'),
 	)
 
+	SHIRT_SIZES = (
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+    )
+
 	author 		= models.CharField(max_length=100)
-	ISBN 		= models.CharField(max_length=100)
+	isbn 		= models.CharField(max_length=100)
 	title 		= models.CharField(max_length=100)
 
 	# chooses from above
-	condition 	= models.CharField(max_length=100,	\
+	condition 	= models.CharField(max_length=2,	\
 		choices = CONDITION_CHOICES)
+
+	shirt_size = models.CharField(max_length=1, choices=SHIRT_SIZES)
 
 	def __unicode__(self):
 		return self.title, 'by:', self.author
