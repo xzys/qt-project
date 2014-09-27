@@ -47,8 +47,8 @@ class Offer(models.Model):
 ############### ITEMS ######################
 class ItemGroup(models.Model):
 	ITEM_TYPES = (
-		('A', 'Textbook')
-		('B', 'Tickets')
+		('A', 'Textbook'),
+		('B', 'Tickets'),
 	)
 
 	name 		= models.CharField(max_length=100)

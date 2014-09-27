@@ -1,6 +1,8 @@
 from django.shortcuts import render, render_to_response
-from market.models import UserProfile, Location, \
-	Offer, Itemgroup. Item, Textbook, TIcket
+from django.contrib.auth.decorators import login_required
+
+from market.models import \
+	UserProfile, Location, Offer, ItemGroup, Item, Textbook, Ticket
 import json
 from django.core import serializers
 
@@ -9,12 +11,15 @@ from django.core import serializers
 """this will give you all the listings in the current view
 
 QUERY PARAMETERS
-	category
+	category e.g. A, B, C
+
+	locations e.g. their keys
+	itemgroups e.g. their keys
 
 
 """
 @login_required
-def get_json():
+def get_json(request, action):
 	# REFERENCE from market.models.Item
 	# ITEM_TYPES = (
 	# 	('A', 'Textbook')
@@ -24,48 +29,48 @@ def get_json():
 
 	# assert
 	# request.method == 'GET':
+	if action == 'get_json':
+		results = {}
+		
+		# top level category 
+		category 		= request.GET.get('category', '')
 
-	results = {}
-	
-	# top level category 
-	category 		= request.GET.get('category', '')
-
-	# filters that they have given
-	# filters will be empty on first request
-	locations 		= request.GET.get('locations', '')
-	itemgroups 		= request.GET.get('itemgroups', '')
+		# filters that they have given
+		# filters will be empty on first request
+		locations 		= request.GET.get('locations', '')
+		itemgroups 		= request.GET.get('itemgroups', '')
 
 
-	results['filters'] = serializers.serialize('python',
-		ItemGroup.objects.filter(type=category))
+		results['filters'] = serializers.serialize('python',
+			ItemGroup.objects.filter(type=category))
 
-	# textbooks
-	if category == 'A':
-		results['listings'] = serializers.serialize('python',
-			Textbook.objects.filter(),
-			fields=(
-				'condition',
-				'author',
-				'isbn',
-				'title',
+		# textbooks
+		if category == 'A':
+			results['listings'] = serializers.serialize('python',
+				Textbook.objects.filter(),
+				fields=(
+					'condition',
+					'author',
+					'isbn',
+					'title',
+					)
 				)
-			)
 
-	# tickets
-	if category == 'B':
-		results['listings'] = serializers.serialize('python',
-			Tickets.objects.filter(),
-			fields=(
-				'event',
-				'date',
+		# tickets
+		if category == 'B':
+			results['listings'] = serializers.serialize('python',
+				Tickets.objects.filter(),
+				fields=(
+					'event',
+					'date',
+					)
 				)
-			)
 
-	jsondata = json.dumps({
-		'filters' : results['filters'],
-		'listings' : results['listings']
-		})
-	return HttpResponse(jsondata, content_type='application/json')
+		jsondata = json.dumps({
+			'filters' : results['filters'],
+			'listings' : results['listings']
+			})
+		return HttpResponse(jsondata, content_type='application/json')
 
 def login_req():
 	pass
@@ -73,7 +78,6 @@ def login_req():
 def logout_req():
 	pass
 
-def 
 
 
 
