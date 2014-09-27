@@ -19,16 +19,21 @@ class UserProfile(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
-
-
 class Location(model.Model):
 	name = models.CharField(max_length=100)
 	# one or the other
-	lattitude = models.FloatField()
+	latitude = models.FloatField()
 	longitude = models.FloatField() 
 
 	def __unicode__(self):
 		return str(self.longitude) + ', ' + str(self.lattitude)
+
+class Offer(models.Model):
+	item         = models.ForeignKey('Item')
+	buyer        = models.ForeignKey('UserProfile')
+	seller       = models.ForeignKey('UserProfile')
+	date_created = models.DateField(auto_now_add=True)
+	date_sold    = models.DateField()
 
 ############### ITEMS ######################
 class ItemGroup(model.Model):
@@ -39,13 +44,12 @@ class ItemGroup(model.Model):
 
 # represents any item to sell
 class Item(models.Model):
-	user1 = models.ForeignKey(User, related_name='r+')
+	seller = models.ForeignKey(User, related_name='r+')
 	# price is deciman 2 units
 	price = models.DecimalField(max_digits=6, decimal_places=2)
 
 	class Meta:
 		abstract = True
-
 
 class Textbook(Item):
 	author = models.CharField(max_length=100)
@@ -62,11 +66,4 @@ class Ticket(Item):
 
     def __unicode__(self):
         return self.event
-
-class Offer(models.Model):
-	item         = models.ForeignKey('Item')
-	buyer        = models.ForeignKey('UserProfile')
-	seller       = models.ForeignKey('UserProfile')
-	date_created = models.DateField(auto_now_add=True)
-	date_sold    = models.DateField()
 
