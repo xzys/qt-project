@@ -23,23 +23,22 @@ dthandler = lambda obj: (obj.isoformat()
 						else None)
 # backend views
 
-"""this will give you all the listings in the current view
-
-QUERY PARAMETERS
-	category e.g. A, B, C
-
-	locations e.g. their keys
-	itemgroups e.g. their keys
-
-RETURNS
-	filters
-	user_groups
-	user_locations
-	listings
-"""
-
 # @login_required
 def api_request(request, action):
+	"""this will give you all the listings in the current view
+
+	QUERY PARAMETERS
+		category e.g. A, B, C
+
+		locations e.g. their keys
+		itemgroups e.g. their keys
+
+	RETURNS
+		filters
+		user_groups
+		user_locations
+		listings
+	"""
 	# assert
 	# request.method == 'GET':
 	if action == 'getjson':
@@ -98,28 +97,71 @@ def api_request(request, action):
 		return HttpResponse(jsondata, content_type='application/json')
 
 	elif action == 'post_listing':
+	# """this wll add a post to the thing
+
+	# QUERY PARAMETERS
+	# 	category e.g. A, B, C
+
+	# 	locations e.g. their keys
+	# 	itemgroups e.g. their keys
+
+	# RETURNS
+	# 	filters
+	# 	user_groups
+	# 	user_locations
+	# 	listings
+	# """
+
 		# top level category 
+		# postdata = json.loads(request.body)
+        # username = postdata['category']
+        # password = postdata['subgroup']
+        # password = postdata['subgroup']
+
+
+        
+
 		category = request.GET.get('category', '')
+		subgroup_pk = request.GET.get('subgroup', '')
+		location_pk = int(request.GET.get('location', ''))
+		price = float(request.GET.get('price', ''))
 
-		location = request.GET.get('location', '')
-		loc = Location.objects.filter(pk = location)
+		try:
+			loc = Location.objects.filter(pk = location)
+		except:
+			loc = Location.objects.all()[0]
+			pass
 
-		if category == 'textbook':
+
+		if category == 'A':
+			author = request.GET.get('author', '')
+			isbn = request.GET.get('isbn', '')
+			title = request.GET.get('title', '')
+
 			tb = Textbook()
-			tb.seller = User.objects.all()[0]
+			tb.seller = request.user
 			tb.price = round(random.random() * 100, 2)
 			tb.condition = 'C' + str(random.choice(range(5)))
 			tb.isbn = str(random.random() * 10000 )
 			tb.title = 'Intro to ' + titles[random.choice(range(len(titles)))]
 			tb.location = loc
 			tb.save()
-		elif category == 'ticket':
+
+		elif category == 'B':
+			event = request.GET.get('event', '')
+			event_date = datetime.datetime(*map(int, re.split('[^\d]', s)[:-1]))
+			
+			# make sure you get the date like this in your js app
+			# var date = new Date();
+			# date.toISOString();
+
+
 			tx = Ticket()
-			tx.seller = User.objects.all()[0]
-			tx.price = round(random.random() * 100, 2)
+			tx.seller = request.user
+			tx.price = price
 			tx.location = loc
-			tx.event = events[random.choice(range(len(events)))]
-			tx.date = datetime.date.today()
+			tx.event = ItemGroup.objects.filter(pk=subgroup_pk)[0].name
+			tx.date = event_date
 			tx.save()
 
 
