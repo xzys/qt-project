@@ -107,11 +107,7 @@ def logout_req(request):
 
 """default homepage will be tickets"""
 def default(request):
-	context = { 
-		'filters': ItemGroup.objects.filter(type='A'),
-	} 
-
-	return render(request, "market/index.html", context)
+	return HttpResponseRedirect('/textbooks')
 
 
 # frontend views
