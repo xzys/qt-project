@@ -46,7 +46,13 @@ class Offer(models.Model):
 
 ############### ITEMS ######################
 class ItemGroup(models.Model):
+	ITEM_TYPES = (
+		('A', 'Textbook')
+		('B', 'Tickets')
+	)
+
 	name 		= models.CharField(max_length=100)
+	type 		= models.CharField(max_length=2, choices=ITEM_TYPES)
 
 	def __unicode__(self):
 		return self.name
