@@ -119,9 +119,10 @@ def default(request):
 """
 def home(request, category):
 	context = { 
-		# 'filters': ItemGroup.objects.filter(type=category),
 		'filters': ['CS 3080', 'CS 3140', 'CS 4411'],
-		'listings' : get_listings(category),
+		
+		# 'filters': ItemGroup.objects.filter(type=category),
+		# 'listings' : get_listings(category),
 	}
 
 	return render(request, "market/index.html", context)
