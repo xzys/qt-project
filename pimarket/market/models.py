@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.contenttypes import generic
 from django.contrib.auth.models import User
 
 
@@ -19,7 +20,7 @@ class UserProfile(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
-class Location(model.Model):
+class Location(models.Model):
 	name 		= models.CharField(max_length=100)
 	lattitude 	= models.FloatField()
 	longitude 	= models.FloatField() 
@@ -28,9 +29,11 @@ class Location(model.Model):
 		return str(self.longitude) + ', ' + str(self.lattitude)
 
 class Offer(models.Model):
-	item         = models.ForeignKey('Item')
-	buyer        = models.ForeignKey('UserProfile')
-	seller       = models.ForeignKey('UserProfile')
+	item         = generic.GenericForeignKey('Item')
+	buyer        = models.ForeignKey('UserProfile', \
+		related_name = 'd+')
+	seller       = models.ForeignKey('UserProfile',	\
+		related_name = 'e+')
 	date_created = models.DateField(auto_now_add=True)
 	date_sold    = models.DateField()
 
@@ -38,7 +41,7 @@ class Offer(models.Model):
 
 
 ############### ITEMS ######################
-class ItemGroup(model.Model):
+class ItemGroup(models.Model):
 	name 		= models.CharField(max_length=100)
 
 	def __unicode__(self):

@@ -34,6 +34,7 @@ from market.models import UserProfile, Location, Offer, ItemGroup, Item, Textboo
 
 admin.site.register(UserProfile)
 admin.site.register(Location)
+admin.site.register(ItemGroup)
 
 # admin.site.register(Location, LocationAdmin)
 # admin.site.register(Offer, OfferAdmin)
