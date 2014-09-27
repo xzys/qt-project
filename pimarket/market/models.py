@@ -20,11 +20,10 @@ class Item(models.Model):
 	class Meta:
 		abstract = True
 
-
 class Offer(models.Model):
-	item         = models.CharField(max_length=30)
-	buyer        = models.CharField(max_length=30)
-	seller       = models.CharField(max_length=30)
-	date_created = models.CharField(max_length=30)
-	date_sold    =  models.CharField(max_length=30)
+	item         = models.ForeignKey('Item')
+	buyer        = models.ForeignKey('UserProfile')
+	seller       = models.ForeignKey('UserProfile')
+	date_created = models.DateField(auto_now_add=True)
+	date_sold    =  models.DateField()
 
