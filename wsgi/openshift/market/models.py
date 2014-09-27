@@ -25,7 +25,7 @@ class UserProfile(models.Model):
 class Location(models.Model):
 	name 		= models.CharField(max_length=100)
 	lattitude 	= models.FloatField()
-	longitude 	= models.FloatField() 
+	longitude 	= models.FloatField()
 
 	def __unicode__(self):
 		return str(self.longitude) + ', ' + str(self.lattitude)
@@ -34,6 +34,8 @@ class Offer(models.Model):
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
 	item = generic.GenericForeignKey('content_type', 'object_id')
+
+
 	buyer        = models.ForeignKey('UserProfile', \
 		related_name = 'd+')
 	seller       = models.ForeignKey('UserProfile',	\
@@ -61,6 +63,7 @@ class ItemGroup(models.Model):
 class Item(models.Model):
 	seller		= models.ForeignKey(User, related_name='r+')
 	price		= models.DecimalField(max_digits=6, decimal_places=2)
+	location 	= models.ForeignKey(Location, related_name='k+')
 
 class Textbook(Item):
 	CONDITION_CHOICES = (
