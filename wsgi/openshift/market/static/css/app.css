@@ -17,19 +17,57 @@ body {
 
 body form {
 	font-weight: 300;	
-	font-size: 22px;
+	font-size: 1.1em;
+	margin-bottom: 5px;
 }
 
-body form .checkbox {
-	padding-left: 20px;
-	clear: both;
+body form .checkbox-text {
+	padding: 20px 25px 20px 10px;
+	/*clear: both;*/
 }
 
 h2 {
-	font-size: 36px;
+	font-size: 2.0em;
 	font-weight: 300;
+
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-top: 10px;
 	padding-bottom: 10px
+}
+
+
+
+
+
+.navbar-header {
+	font-size: 2.0em;
+	font-weight: 300;
+	line-height: 1.42857143;
+	padding-left: 25px;
+}
+
+.navbar-right {
+	padding-right: 25px;
+}
+
+.container-fluid {
+	padding: 0px;
+}
+
+
+
+input[type='checkbox'] {
+    -webkit-appearance:none;
+    width:20px;
+    height:20px;
+
+    /*background:white;*/
+    
+    border-radius:5px;
+    border:1px solid #555;
+}
+
+input[type='checkbox']:checked {
+    background: tomato;
 }
