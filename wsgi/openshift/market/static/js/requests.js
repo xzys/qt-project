@@ -10,7 +10,7 @@ function requestListings (category) {
 				var toAppend = '<div class="panel panel-default"><div class="panel-body">';
 				if (category == 'A') {
 					toAppend = toAppend + fields.title + '<br>' + fields.isbn + '<br>' + fields.condition;
-				} else {
+				} else if (category == 'B') {
 					toAppend = toAppend + fields.event + '<br>' + fields.date;
 				}
 				toAppend + '</div></div></div>';
