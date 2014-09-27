@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-# import openshift.wsgi
+import openshift.wsgi
 # # reuse the application callable from openshift.wsgi
-# application = openshift.wsgi.application
+application = openshift.wsgi.application
 
-from pimarket import pimarket.wsgi
+# from pimarket import pimarket.wsgi
 # reuse the application callable from openshift.wsgi
-application = pimarket.wsgi.application
+# application = pimarket.wsgi.application
