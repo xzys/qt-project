@@ -5,7 +5,7 @@ $(document).ready(function(){
 		filtersContainer.append('<input type="checkbox" value="'+ areas[i] + '"/> ' + areas[i] + '<br />');
 	}
 
-	var sorts = ["Item", "Price"];
+	var sorts = ["Item", "Price", "Location"];
 	var sortContainer = $('#sorts');
 	for (i=0; i<sorts.length; i++) {
 		sortContainer.append('<button type="button" class="btn btn-default"> ' + sorts[i] + '</button>');
