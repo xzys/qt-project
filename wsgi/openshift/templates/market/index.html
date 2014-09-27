@@ -82,7 +82,7 @@
 
                         {% for filter in filters %}
 
-                            <input type="checkbox" value="Value"/>{{ filter }}<br>
+                            <input type="checkbox" value="{{ filter.pk }}"/>{{ filter.name }}<br>
 
                         {% endfor %}
 
