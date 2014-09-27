@@ -105,7 +105,7 @@ def logout_req(request):
 
 
 
-"""default homepage will be tickets"""
+"""default homepage will be textbooks"""
 def default(request):
 	return HttpResponseRedirect('/textbooks')
 
