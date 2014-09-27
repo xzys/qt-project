@@ -3,6 +3,7 @@
 
 <head>
     {% load staticfiles %}
+    {% csrf_token %}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,8 +78,17 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <br><br>
-                        <h1>Textbooks</h1>
+                        <form id="filters">
+                        </form>
+                        <br><br><br>
+                        <div class="well well-sm">
+                            <form id="filters">
+                            </form>
+                        </div>
                         <br>
+                        <div id="sorts" class="btn-group">
+                        </div>
+                        <br><br>
                         <!-- <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
                         <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p> -->
                         <p></p>
@@ -99,7 +109,7 @@
                         </div> -->
 
                       <!-- Table -->
-                    <table class="table table-bordered table-hover">
+                    <!-- <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th data-field="id">Item ID</th>
@@ -107,7 +117,40 @@
                                 <th data-field="price">Item Price</th>
                             </tr>
                         </thead>                      
-                    </table>
+                    </table> -->
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Details of item 1
+                            <br>Price
+                            <br>Condition
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Details of item 2
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Details of item 3
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Details of item 4
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            Details of item 5
+                        </div>
+                    </div>
+
+
                     </div>
                     </div>
                 </div>
@@ -119,10 +162,13 @@
     <!-- /#wrapper -->
 
     <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
+    <script src="{% static 'js/jquery-1.11.0.js' %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <!-- Database Requests -->
+    <script src="{% static 'js/requests.js' %}"></script>
 
     <!-- Menu Toggle Script -->
      <script>
