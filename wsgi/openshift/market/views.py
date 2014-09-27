@@ -11,7 +11,13 @@ from market.models import \
 
 import random
 import json
+import datetime
 
+
+dthandler = lambda obj: (obj.isoformat() 
+                        if isinstance(obj, datetime.datetime) 
+                        or isinstance(obj, datetime.date)
+                        else None)
 # backend views
 
 """this will give you all the listings in the current view
@@ -27,9 +33,6 @@ RETURNS
 	user_groups
 	user_locations
 	listings
-
-
-
 """
 # @login_required
 def get_json(request, action):
@@ -40,6 +43,7 @@ def get_json(request, action):
 		# make the random data 
 		titles = ('Math', 'Science', 'Philosophy', 'Social Sciences', 'Drinking', 'Computers')
 		locations = ('North Campus', 'West Campus', 'Collegetown')
+		events = ('Bill Gates', 'Icono Pop', 'Iron & Wine')
 
 		loc = Location()
 		loc.name = locations[random.choice(range(len(locations)))]
@@ -56,6 +60,13 @@ def get_json(request, action):
 		tb.location = loc
 		tb.save()
 
+		tx = Ticket()
+		tx.seller = User.objects.all()[0]
+		tx.price = round(random.random() * 100, 2)
+		tx.location = loc
+		tx.event = events[random.choice(range(len(events)))]
+		tx.date = datetime.date.today()
+		tx.save()
 
 
 		results = {}
@@ -78,7 +89,7 @@ def get_json(request, action):
         jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
-			})
+			}, default=dthandler)
 
         return HttpResponse(jsondata, content_type='application/json')
 
@@ -128,7 +139,7 @@ def home(request, category):
 
 def login(request):
 	context = {}
-	
+	context.update(csrf(request))
 	return render(request, "market/login.html", context)
 
 
@@ -159,7 +170,7 @@ def get_listings(category):
 	# tickets
 	elif category == 'B':
 		result = serializers.serialize('python',
-			Tickets.objects.filter(),
+			Ticket.objects.filter(),
 			fields=(
 				'event',
 				'date',
