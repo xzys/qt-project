@@ -20,16 +20,9 @@ class UserProfile(models.Model):
 		return self.user.username
 
 class Location(model.Model):
-<<<<<<< HEAD
-	name = models.CharField(max_length=100)
-	# one or the other
-	latitude = models.FloatField()
-	longitude = models.FloatField() 
-=======
 	name 		= models.CharField(max_length=100)
 	lattitude 	= models.FloatField()
 	longitude 	= models.FloatField() 
->>>>>>> 6a0cdc06e0b219d74d036f075afc650f83f23270
 
 	def __unicode__(self):
 		return str(self.longitude) + ', ' + str(self.lattitude)
@@ -41,6 +34,9 @@ class Offer(models.Model):
 	date_created = models.DateField(auto_now_add=True)
 	date_sold    = models.DateField()
 
+
+
+
 ############### ITEMS ######################
 class ItemGroup(model.Model):
 	name 		= models.CharField(max_length=100)
@@ -50,14 +46,8 @@ class ItemGroup(model.Model):
 
 # represents any item to sell
 class Item(models.Model):
-<<<<<<< HEAD
-	seller = models.ForeignKey(User, related_name='r+')
-	# price is deciman 2 units
-	price = models.DecimalField(max_digits=6, decimal_places=2)
-=======
 	seller		= models.ForeignKey(User, related_name='r+')
 	price		= models.DecimalField(max_digits=6, decimal_places=2)
->>>>>>> 6a0cdc06e0b219d74d036f075afc650f83f23270
 
 	class Meta:
 		abstract = True
