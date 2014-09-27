@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.contenttypes import generic
 from django.contrib.auth.models import User
 
+from django.contrib.contenttypes.models import ContentType
+
 
 
 class UserProfile(models.Model):
@@ -29,7 +31,11 @@ class Location(models.Model):
 		return str(self.longitude) + ', ' + str(self.lattitude)
 
 class Offer(models.Model):
-	item         = generic.GenericForeignKey('Item')
+	content_type = models.ForeignKey(ContentType)
+	object_id = models.PositiveIntegerField()
+	item = generic.GenericForeignKey('content_type', 'object_id')
+
+
 	buyer        = models.ForeignKey('UserProfile', \
 		related_name = 'd+')
 	seller       = models.ForeignKey('UserProfile',	\
@@ -57,12 +63,12 @@ class Item(models.Model):
 
 class Textbook(Item):
 	CONDITION_CHOICES = (
-        (0, 'Poor'),
-        (1, 'Heavily Used'),
-        (2, 'Lightly Used'),
-        (3, "Its' aight"),
-        (4, 'New'),
-    )
+		(0, 'Poor'),
+		(1, 'Heavily Used'),
+		(2, 'Lightly Used'),
+		(3, "Its' aight"),
+		(4, 'New'),
+	)
 
 	author 		= models.CharField(max_length=100)
 	ISBN 		= models.CharField(max_length=100)
