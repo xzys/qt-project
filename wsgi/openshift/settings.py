@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'market'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -124,5 +125,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
+
+
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
+
 STATIC_URL = '/static/'
+
+# if 'OPENSHIFT_REPO_DIR' in os.environ:
+#     STATIC_ROOT = os.path.join(os.environ.get('OPENSHIFT_REPO_DIR'), 'wsgi', 'static')
+# else:
+#     STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL.strip("/"))
+
+
+
