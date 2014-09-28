@@ -76,8 +76,8 @@ def api_request(request, action):
 
 
 		
-		results = {}
 
+		results = {}
 		# top level category 
 		category 		= request.GET.get('category', '')
 
@@ -107,14 +107,14 @@ def api_request(request, action):
 		results['listings'] = get_listings(category)
 		
 		results['user_locations'] = request.user.userprofile.locations
+
 		results['user_itemgroups'] = request.user.userprofile.groups
-
 		
-
-
 		jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
+			'user_locations' : results['user_locations'],
+			'user_itemgroups' : results['user_itemgroups'],
 			}, default=dthandler)
 
 		return HttpResponse(jsondata, content_type='application/json')
@@ -144,9 +144,9 @@ def api_request(request, action):
 
 		postdata = json.loads(request.body)
 		category = postdata['category']
-        subgroup_pk = postdata['subgroup']
-        location_pk = postdata['location']
-        price = postdata['price']
+		subgroup_pk = postdata['subgroup']
+		location_pk = postdata['location']
+		price = postdata['price']
 
 		try:
 			loc = Location.objects.filter(pk = location)
@@ -189,16 +189,9 @@ def api_request(request, action):
 			tx.date = event_date
 			tx.save()
 
-<<<<<<< HEAD
 def request_log_out(request):
 	django.contrib.auth.logout(request)
 	return redirect("/login/")
-=======
-	elif action == 'setpreferences':
-
-	elif action == 'setpreferences':
-
->>>>>>> 3180fdc0dd05561aedb1fa840f83542df52c9f7f
 
 
 # frontend views
