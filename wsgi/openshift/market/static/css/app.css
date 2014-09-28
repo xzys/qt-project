@@ -89,3 +89,15 @@ input[type='checkbox'] {
 input[type='checkbox']:checked {
     background: tomato;
 }
+
+#postListingBtn {
+	margin-top: 20px;
+	margin-right: 6px;
+	float: right;
+}
+
+.modal-body input,
+.modal-body select {
+	float: right;
+	width: 400px;
+}
