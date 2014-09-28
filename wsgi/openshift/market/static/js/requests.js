@@ -111,6 +111,8 @@ function submitPost() {
 	 	},
 	    function(result) {
     		console.log(result);
+    		$('#myModal').modal('hide');
+	    	requestListings(categoryType);
 		}
 	);
 }

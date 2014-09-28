@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -163,3 +164,33 @@
 </body>
 
 </html>
+
+<!-- ======= -->
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+	<title>Pi Market</title>
+	<meta charset="utf-8"/>
+	<link rel='stylesheet' type="text/css" href="{% static 'css/login.css' %}" />
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div style="height:20px; color: white; font-size: 30px; font-family: Lato"><span style="color: #fff; background: #0174DF; border-radius: 20px; padding: 0px 10px;">&Pi;</span>Market@Cornell University</div>
+	<img id="laptopimage" src="{% static 'img/laptopimage.jpg' %}"/>
+	<h1>Join the Modern<br>Marketplace</h1>
+	<form method='POST' action=''> {% csrf_token %}
+		{{ form.username }}<span class="form-atcornell"> @cornell.edu</span><br>
+		{{ form.password }}<br>
+		{% if messages %}
+		<div class="error_message">
+    		{% for message in messages %}
+    		<h3{% if message.tags == 'error' %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
+    		{% endfor %}
+		</div>
+		{% endif %}
+		 <button type="submit" value="Login" name="Login" class="btn">Login</button>
+		 <button type="submit" value="Register" name="Register" class="btn">Register</button>
+	</form>
+</body>
+</html> -->
