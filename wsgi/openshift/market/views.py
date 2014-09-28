@@ -26,7 +26,7 @@ dthandler = lambda obj: (obj.isoformat()
 						else None)
 # backend views
 
-# @login_required
+@login_required
 def api_request(request, action):
 	"""this will give you all the listings in the current view
 
@@ -46,7 +46,7 @@ def api_request(request, action):
 	# request.method == 'GET':
 	if action == 'getjson':
 		
-		# make the random data 
+		# make the random data for now
 		titles = ('Math', 'Science', 'Philosophy', 'Social Sciences', 'Drinking', 'Computers')
 		locations = ('North Campus', 'West Campus', 'Collegetown')
 		events = ('Bill Gates', 'Icono Pop', 'Iron & Wine')
@@ -75,22 +75,42 @@ def api_request(request, action):
 		tx.save()
 
 
-		results = {}
 		
+		results = {}
+
 		# top level category 
 		category 		= request.GET.get('category', '')
 
 		# filters that they have given
 		# filters will be empty on first request
-		locations 		= request.GET.get('locations', '')
-		itemgroups 		= request.GET.get('itemgroups', '')
-		sort 			= request.GET.get('sort', '')
+		location_ids	= request.GET.get('locations', '')
+		itemgroup_ids	= [s.strip() for s in request.GET.get('itemgroups', '').split(',')]
+		sort_by			= request.GET.get('sort', '')
+
+
+		locations 		= Location.objects.in_bulk(location_ids)
+		itemgroups 		= ItemGroup.objects.in_bulk(itemgroup_ids)
+
+		# save these locations and subgroups into user
+		# to save preferences
+		if len(locations) > 0:
+			request.user.userprofile.locations = locations
+		if len(itemgroups) > 0:
+			request.user.userprofile.groups = itemgroups
+
+
 
 
 		results['filters'] = serializers.serialize('python',
 			ItemGroup.objects.filter(type=category))
 
 		results['listings'] = get_listings(category)
+		
+		results['user_locations'] = request.user.userprofile.locations
+		results['user_itemgroups'] = request.user.userprofile.groups
+
+		
+
 
 		jsondata = json.dumps({
 			'filters' : results['filters'],
@@ -99,47 +119,50 @@ def api_request(request, action):
 
 		return HttpResponse(jsondata, content_type='application/json')
 
-	elif action == 'post_listing':
-	# """this wll add a post to the thing
+	elif action == 'postlisting':
+		"""this wll add a post to the thing
 
-	# QUERY PARAMETERS
-	# 	category e.g. A, B, C
+		QUERY PARAMETERS
+			category e.g. A, B, C
 
-	# 	locations e.g. their keys
-	# 	itemgroups e.g. their keys
+			locations e.g. their keys
+			itemgroups e.g. their keys
 
-	# RETURNS
-	# 	filters
-	# 	user_groups
-	# 	user_locations
-	# 	listings
-	# """
+		RETURNS
+			filters
+			user_groups
+			user_locations
+			listings
+		"""
 
 		# top level category 
-		# postdata = json.loads(request.body)
-        # username = postdata['category']
-        # password = postdata['subgroup']
-        # password = postdata['subgroup']
 
+		# category = request.GET.get('category', '')
+		# subgroup_pk = request.GET.get('subgroup', '')
+		# location_pk = int(request.GET.get('location', ''))
+		# price = float(request.GET.get('price', ''))
 
-        
-
-		category = request.GET.get('category', '')
-		subgroup_pk = request.GET.get('subgroup', '')
-		location_pk = int(request.GET.get('location', ''))
-		price = float(request.GET.get('price', ''))
+		postdata = json.loads(request.body)
+		category = postdata['category']
+        subgroup_pk = postdata['subgroup']
+        location_pk = postdata['location']
+        price = postdata['price']
 
 		try:
 			loc = Location.objects.filter(pk = location)
 		except:
 			loc = Location.objects.all()[0]
-			pass
+		pass
 
 
 		if category == 'A':
-			author = request.GET.get('author', '')
-			isbn = request.GET.get('isbn', '')
-			title = request.GET.get('title', '')
+			# author = request.GET.get('author', '')
+			# isbn = request.GET.get('isbn', '')
+			# title = request.GET.get('title', '')
+			author		= postdata['author']
+			isbn		= postdata['isbn']
+			title		= postdata['title']
+
 
 			tb = Textbook()
 			tb.seller = request.user
@@ -158,7 +181,6 @@ def api_request(request, action):
 			# var date = new Date();
 			# date.toISOString();
 
-
 			tx = Ticket()
 			tx.seller = request.user
 			tx.price = price
@@ -167,9 +189,16 @@ def api_request(request, action):
 			tx.date = event_date
 			tx.save()
 
+<<<<<<< HEAD
 def request_log_out(request):
 	django.contrib.auth.logout(request)
 	return redirect("/login/")
+=======
+	elif action == 'setpreferences':
+
+	elif action == 'setpreferences':
+
+>>>>>>> 3180fdc0dd05561aedb1fa840f83542df52c9f7f
 
 
 # frontend views
@@ -188,6 +217,7 @@ def login(request):
 				else: # Either username or password incorrect
 					messages.add_message(request,messages.ERROR,'Incorrect username or password')
 					return redirect('/login/')
+
 			elif request.POST.get('Register') == 'Register':
 				try: # USER EXISTS
 					User.objects.get(username=form_data['username']+"@cornell.edu")
@@ -198,6 +228,11 @@ def login(request):
 					new_user.save()
 					new_user = django.contrib.auth.authenticate(username=new_user.username,password=form_data['password'])
 					django.contrib.auth.login(request,new_user)
+
+					new_userp = UserProfile()
+					new_userp.user = new_user
+					new_userp.save()
+					
 					return redirect('/')
 	elif request.method == 'GET':
 		form = UserForm()
@@ -215,7 +250,7 @@ def default(request):
 """post listing 
 """
 def post(request):
-	print("POST GENKI")
+	print "POST GENKI"
 	return render(request, "market/post.html")
 
 
