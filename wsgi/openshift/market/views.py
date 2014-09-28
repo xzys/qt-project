@@ -5,8 +5,6 @@ from django.http import \
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response
 from django.core.context_processors import csrf
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
-from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.contrib.auth.models import User
 from market.models import \
@@ -83,8 +81,8 @@ def api_request(request, action):
 
 		# filters that they have given
 		# filters will be empty on first request
-		location_ids	= request.GET.get('locations', '')
-		itemgroup_ids	= [s.strip() for s in request.GET.get('itemgroups', '').split(',')]
+		location_ids	= [int(s.strip()) for s in request.GET.get('locations', '').split(',') if s is not '']
+		itemgroup_ids	= [int(s.strip()) for s in request.GET.get('itemgroups', '').split(',') if s is not '']
 		sort_by			= request.GET.get('sort', '')
 
 
@@ -142,11 +140,11 @@ def api_request(request, action):
 		# location_pk = int(request.GET.get('location', ''))
 		# price = float(request.GET.get('price', ''))
 
-		postdata = json.loads(request.body)
-		category = postdata['category']
-		subgroup_pk = postdata['subgroup']
-		location_pk = postdata['location']
-		price = postdata['price']
+		postdata 		= json.loads(request.body)
+		category 		= postdata['category']
+		# subgroup_pk 	= postdata['subgroup']
+		location_pk 	= postdata['location']
+		price 			= postdata['price']
 
 		try:
 			loc = Location.objects.filter(pk = location)
@@ -160,22 +158,25 @@ def api_request(request, action):
 			# isbn = request.GET.get('isbn', '')
 			# title = request.GET.get('title', '')
 			author		= postdata['author']
-			isbn		= postdata['isbn']
+			isbn		= int(postdata['isbn'])
 			title		= postdata['title']
+			condition	= int(postdata['condition'])
 
 
 			tb = Textbook()
 			tb.seller = request.user
-			tb.price = round(random.random() * 100, 2)
-			tb.condition = 'C' + str(random.choice(range(5)))
-			tb.isbn = str(random.random() * 10000 )
-			tb.title = 'Intro to ' + titles[random.choice(range(len(titles)))]
+			tb.price = float(price)
+			tb.condition = 'C' + str(condition)
+			tb.isbn = isbn
+			
+			tb.title = title
 			tb.location = loc
 			tb.save()
 
 		elif category == 'B':
-			event = request.GET.get('event', '')
-			event_date = datetime.datetime(*map(int, re.split('[^\d]', s)[:-1]))
+			event = postdata['event']
+			event_date = datetime.datetime(*map(request.GET.get('event_date', ''), \
+				re.split('[^\d]', s)[:-1]))
 			
 			# make sure you get the date like this in your js app
 			# var date = new Date();
@@ -188,6 +189,10 @@ def api_request(request, action):
 			tx.event = ItemGroup.objects.filter(pk=subgroup_pk)[0].name
 			tx.date = event_date
 			tx.save()
+
+	
+	elif action == 'lookupisbn':
+		pass
 
 def request_log_out(request):
 	django.contrib.auth.logout(request)
