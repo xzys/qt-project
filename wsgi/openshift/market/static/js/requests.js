@@ -54,7 +54,7 @@ function submitPost() {
 		eventName = listings.find('[name="Event"]').val();
 		eventDate = listings.find('[name="Date"]').val();
 	}
-	$.post(
+	$.get(
 		'http://localhost:8000/api/postlisting', 
 		{ 
 			category: categoryType,
@@ -95,6 +95,8 @@ $(document).ready(function() {
 	for (i=0;i<postMods.length;i++) {
 		if (postMods[i] == "Condition") {
 			modalBody.append('Condition: <select name="Condition"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5 (Best Condition)</option></select><br><br>');
+		} else if (postMods[i] == "Date") {
+			modalBody.append(postMods[i]+': <input type="date" name="'+postMods[i]+'"><br><br>');
 		} else {
 			modalBody.append(postMods[i]+': <input type="text" name="'+postMods[i]+'"><br><br>');
 		}
@@ -105,7 +107,4 @@ $(document).ready(function() {
 	$("#SignOut").click(function() {
 		requestSignOut();
 	});
-
-	$(".success_message").delay(100).fadeOut(1000)
-
 });
