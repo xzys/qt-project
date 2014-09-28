@@ -44,7 +44,7 @@ function displayListings(result) {
 function search() {
 	var query = $("#searchBox").val();
 	$.get(
-		'http://localhost:8000/api/search', 
+		'/api/search', 
 		{ 
 			category: categoryType,
 			q: query
@@ -66,7 +66,7 @@ function search() {
 
 function requestListings (category) {
 	$.get(
-		'http://localhost:8000/api/getjson', 
+		'/api/getjson', 
 		{ category: category },
 	    function(result) {
 	    	displayListings(result.listings);
@@ -75,7 +75,7 @@ function requestListings (category) {
 }
 
 function requestSignOut(){
-	window.location.href = "http://localhost:8000/logout";
+	window.location.href = "/logout";
 }
 
 function submitPost() {
@@ -100,7 +100,7 @@ function submitPost() {
 		eventDate = listings.find('[name="Date"]').val();
 	}
 	$.get(
-		'http://localhost:8000/api/postlisting', 
+		'/api/postlisting', 
 		{ 
 			category: categoryType,
 			location: location,
