@@ -1,6 +1,6 @@
 body {
     background-color: #e74c3c;
-    margin-left: 180px;
+    margin-left: 290px;
 }
 
 h1, h2, h3 {
@@ -60,7 +60,7 @@ form button:hover {
 
 #laptopimage {
     float: right;
-    margin-right: 50px;
+    margin-right: 100px;
     margin-top: 120px;
 }
 
