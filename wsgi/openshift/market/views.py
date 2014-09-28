@@ -244,7 +244,6 @@ def api_request(request, action):
 
 
 def request_log_out(request):
-	print "ADDING MESSAGES"
 	django.contrib.auth.logout(request)
 	
 	messages.add_message(request,messages.SUCCESS,"Log Out Successful")
