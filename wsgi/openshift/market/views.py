@@ -221,28 +221,14 @@ def api_request(request, action):
 
 		if category =='A':
 			results['listings'] = serializers.serialize('python',
-				textbooks,
-				fields=(
-					'condition',
-					'author',
-					'isbn',
-					'title',
-					)
-				)
+				textbooks)
 
 			results['other'] = '%i results in Tickets...' % len(tickets)
 
 			
 		if category =='B':
 			results['listings'] = serializers.serialize('python',
-				tickets,
-				fields=(
-					'condition',
-					'author',
-					'isbn',
-					'title',
-					)
-				)
+				tickets)
 
 			results['other'] = '%i results in Textbooks...' % len(textbooks)
 
