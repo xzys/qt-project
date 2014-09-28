@@ -28,10 +28,10 @@ function requestListings (category) {
 	);
 }
 
-<<<<<<< Updated upstream
 function requestSignOut(){
 	window.location.href = "http://localhost:8000/logout";
-=======
+}
+
 var categoryType;
 function submitPost() {
 	var listings = $(".modal-body");
@@ -71,7 +71,6 @@ function submitPost() {
     		console.log(result);
 		}
 	);
->>>>>>> Stashed changes
 }
 
 $(document).ready(function() {
@@ -100,12 +99,10 @@ $(document).ready(function() {
 			modalBody.append(postMods[i]+': <input type="text" name="'+postMods[i]+'"><br><br>');
 		}
 	}
-<<<<<<< Updated upstream
 
+	modalBody.append('Price: <input type="text" name="Price" placeholder="$"><br><br>Your Location: <select name="Location"><option value="0">North Campus</option><option value="1">West Campus</option><option value="2">Collegetown</option></select>');
+	
 	$("#SignOut").click(function() {
 		requestSignOut();
 	});
-=======
-	modalBody.append('Price: <input type="text" name="Price" placeholder="$"><br><br>Your Location: <select name="Location"><option value="0">North Campus</option><option value="1">West Campus</option><option value="2">Collegetown</option></select>');
->>>>>>> Stashed changes
 });
