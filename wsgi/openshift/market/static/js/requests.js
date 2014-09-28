@@ -1,9 +1,56 @@
+var categoryType;
+function displayListings(result) {
+	var listingsElement = $("#listings");
+	listingsElement.empty();
+	for (i=0;i<result.length;i++) {
+		var fields = result[i].fields;
+		var toAppend = '<div class="panel panel-default"><div class="panel-body">';
+		if (categoryType == 'A') {
+			toAppend = toAppend + '<h1>' + fields.title '</h1>';
+			toAppend = toAppend + '<span class="centerAlign">$50</span>';
+			toAppend = toAppend + '<br>' + fields.isbn;
+			toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
+			toAppend = toAppend + '<br>' + fields.condition;
+		} else if (categoryType == 'B') {
+			toAppend = toAppend + fields.event;
+			toAppend = toAppend + '<span class="centerAlign">$10</span>';
+			var date = new Date(fields.date);
+			toAppend = toAppend + '<br>' + date.toLocaleString("en-US");
+			toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
+		}
+		toAppend = toAppend + '<br></div></div></div>';
+		listingsElement.append(toAppend);
+	}
+}
+
+function search() {
+	var query = $("#searchBox").val();
+	$.get(
+		'http://localhost:8000/api/search', 
+		{ 
+			category: categoryType,
+			q: query
+		},
+	    function(result) {
+	    	var description = result.other;
+	 		var firstPart = description.substring(0,description.lastIndexOf(" "));   	
+	 		var secondPart = description.substring(description.lastIndexOf(" ")+1);   	
+	    	$("#resultDescription").show();
+	    	console.log(firstPart);
+	    	console.log(secondPart);
+	    	console.log(firstPart + '<a href="#">'+secondPart+'</a>');
+	    	$("#resultDescription").html(firstPart + ' <a href="/'+secondPart.toLowerCase()+'?q='+query+'">'+secondPart+'</a>');
+	    	displayListings(result.listings);
+		}
+	);
+}
+
 function requestListings (category) {
-	var listings = $("#listings");
 	$.get(
 		'http://localhost:8000/api/getjson', 
 		{ category: category },
 	    function(result) {
+<<<<<<< Updated upstream
 	    	var listingsResponse = result.listings;
 			for (i=0;i<listingsResponse.length;i++) {
 				var fields = listingsResponse[i].fields;
@@ -27,6 +74,9 @@ function requestListings (category) {
 				toAppend = toAppend + '<br></div></div></div>';
 				listings.append(toAppend);
 			}
+=======
+	    	displayListings(result.listings);
+>>>>>>> Stashed changes
 		}
 	);
 }
@@ -35,7 +85,6 @@ function requestSignOut(){
 	window.location.href = "http://localhost:8000/logout";
 }
 
-var categoryType;
 function submitPost() {
 	var listings = $(".modal-body");
 	var location = listings.find('[name="Location"]')[0].value;
@@ -77,22 +126,30 @@ function submitPost() {
 }
 
 $(document).ready(function() {
-	var pathname = window.location.pathname;
+	var pathName = window.location.href;
+
 	var modalBody = $(".modal-body");
 	var postMods;
-	if (pathname.indexOf("textbooks") != -1) {
+	if (pathName.indexOf("textbooks") != -1) {
 		categoryType = 'A';
 		$("#postListingBtn").html($("#postListingBtn").html() + "Textbook");
 		$("#myModalLabel").html($("#myModalLabel").html() + "Textbook");
 		$("#textbooks").addClass("activeCategory");
 		postMods = ["ISBN", "Book Title", "Author", "Condition"];
-		requestListings(categoryType);
-	} else if (pathname.indexOf("tickets") != -1) {
+	} else if (pathName.indexOf("tickets") != -1) {
 		categoryType = 'B';
 		$("#postListingBtn").html($("#postListingBtn").html() + "Ticket");
 		$("#myModalLabel").html($("#myModalLabel").html() + "Ticket");
 		$("#tickets").addClass("activeCategory");
 		postMods = ["Event", "Date"];
+	}
+
+	var question = pathName.indexOf("?");
+	if (question != -1) {
+		var query = pathName.substring(question+1);
+		$("#searchBox").val(pathName.substring(pathName.indexOf("q=")+2));
+		search();
+	} else {
 		requestListings(categoryType);
 	}
 	for (i=0;i<postMods.length;i++) {
@@ -107,6 +164,12 @@ $(document).ready(function() {
 
 	modalBody.append('Price: <input type="text" name="Price" placeholder="$"><br><br>Your Location: <select name="Location"><option value="0">North Campus</option><option value="1">West Campus</option><option value="2">Collegetown</option></select>');
 	
+	$('#searchBox').focus();
+	$('#searchBox').keyup(function () { 
+		// if textbox == null, then hide resultDescription
+		search();
+	});
+
 	$("#SignOut").click(function() {
 		requestSignOut();
 	});

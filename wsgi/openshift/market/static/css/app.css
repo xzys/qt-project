@@ -101,3 +101,15 @@ input[type='checkbox']:checked {
 	float: right;
 	width: 400px;
 }
+
+#searchBox {
+	position: absolute;
+	left: 14.4%;
+	top: 15%;
+	width: 20%;
+}
+#resultDescription {
+	position: absolute;
+	top: 15%;
+	left: 35%;
+}
