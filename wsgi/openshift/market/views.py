@@ -290,7 +290,6 @@ def login(request):
 				else: # Either username or password incorrect
 					messages.add_message(request,messages.ERROR,'Incorrect username or password')
 					return redirect('/login/')
-
 			elif request.POST.get('Register') == 'Register':
 				try: # USER EXISTS
 					User.objects.get(username=form_data['username']+"@cornell.edu")
@@ -305,7 +304,6 @@ def login(request):
 					new_userp = UserProfile()
 					new_userp.user = new_user
 					new_userp.save()
-					
 					return redirect('/')
 	elif request.method == 'GET':
 		form = UserForm()
@@ -323,7 +321,6 @@ def default(request):
 """post listing 
 """
 def post(request):
-	print "POST GENKI"
 	return render(request, "market/post.html")
 
 
