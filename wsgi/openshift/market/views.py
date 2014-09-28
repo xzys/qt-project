@@ -5,8 +5,6 @@ from django.http import \
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response
 from django.core.context_processors import csrf
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, HttpResponseServerError
-from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.contrib.auth.models import User
 from market.models import \
@@ -26,7 +24,7 @@ dthandler = lambda obj: (obj.isoformat()
 						else None)
 # backend views
 
-# @login_required
+@login_required
 def api_request(request, action):
 	"""this will give you all the listings in the current view
 
@@ -143,10 +141,10 @@ def api_request(request, action):
 		# price = float(request.GET.get('price', ''))
 
 		postdata 		= json.loads(request.body)
-        category 		= postdata['category']
-        # subgroup_pk 	= postdata['subgroup']
-        location_pk 	= postdata['location']
-        price 			= postdata['price']
+		category 		= postdata['category']
+		# subgroup_pk 	= postdata['subgroup']
+		location_pk 	= postdata['location']
+		price 			= postdata['price']
 
 		try:
 			loc = Location.objects.filter(pk = location)
