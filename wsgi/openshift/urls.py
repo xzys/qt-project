@@ -6,7 +6,7 @@ from django.conf import settings
 # admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin[/]?', include(admin.site.urls)),
-    
+    url(r'^logout[/]?', 'market.views.request_log_out', name='request_log_out'),
     url(r'^login[/]?', 'market.views.login', name='login'),
     url(r'^post[/]?', 'market.views.post', name='post'),
     url(r'^home[/]?', 'views.home', name='home'),
