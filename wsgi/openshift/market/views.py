@@ -209,7 +209,7 @@ def api_request(request, action):
 		for tb in Textbook.objects.all():
 			if (len(re.findall(query, tb.title, re.IGNORECASE)) > 0 or 
 				len(re.findall(query, tb.author, re.IGNORECASE)) > 0 or
-				len(re.findall(query, str(tb.isbn), re.IGNORECASE)) > 0:
+				len(re.findall(query, str(tb.isbn), re.IGNORECASE)) > 0):
 				textbooks.append(tb)
 		
 		for tx in Ticket.objects.all():
