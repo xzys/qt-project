@@ -4,6 +4,7 @@ function displayListings(result) {
 	listingsElement.empty();
 	for (i=0;i<result.length;i++) {
 		var fields = result[i].fields;
+
 		var toAppend = '';
 		// fields.title = 'Organic Chemistry As a Second Language, 3e: First Semester Topics';
 		fields.author = 'Janice Gorzynski Smith';

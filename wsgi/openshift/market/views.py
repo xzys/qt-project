@@ -77,7 +77,7 @@ def api_request(request, action):
 
 		results = {}
 		# top level category 
-		category 		= request.GET.get('category', '')
+		category 		= request.GET.get('category', 'A')
 
 		# filters that they have given
 		# filters will be empty on first request
@@ -95,18 +95,14 @@ def api_request(request, action):
 			request.user.userprofile.locations = locations
 		if len(itemgroups) > 0:
 			request.user.userprofile.groups = itemgroups
+			print locations
 
 
-
-
-		results['filters'] = serializers.serialize('python',
-			ItemGroup.objects.filter(type=category))
 
 		results['listings'] = get_listings(category)
-		
 		results['user_locations'] = request.user.userprofile.locations
-
 		results['user_itemgroups'] = request.user.userprofile.groups
+		results['filters'] = serializers.serialize('python', ItemGroup.objects.filter(type=category))
 		
 		jsondata = json.dumps({
 			'filters' : results['filters'],
@@ -343,20 +339,38 @@ def get_listings(category):
 	# 	('A', 'Textbook')
 	# 	('B', 'Tickets')
 	# )
-	result = []
+	results = []
 	# textbooks
 	if category == 'A':
-		result = serializers.serialize('python',
+		results = serializers.serialize('python',
 			Textbook.objects.filter())
+
+		# print results
+
+		for r in results:
+			r['fields']['item'] = serializers.serialize('python', 
+                    [Item.objects.get(textbook=Textbook.objects.get(pk=r['pk']))]
+                                )[0]
+
 
 		# SORTING HERE
 
 	# tickets
 	elif category == 'B':
-		result = serializers.serialize('python',
+		results = serializers.serialize('python',
 			Ticket.objects.filter())
+
+		for r in results:
+			r['fields']['item'] = serializers.serialize('python', 
+                    [Item.objects.get(ticket=Ticket.objects.get(pk=r['pk']))]
+                                )[0]
 
 		# SORTING HERE
 
-	return result
+	# for all of the items
+	for r in results: 
+		r['fields']['item']['fields']['seller'] = serializers.serialize('python', 
+	            [User.objects.get(pk=r['fields']['item']['fields']['seller'])]
+	                        )[0]
+	return results
 
