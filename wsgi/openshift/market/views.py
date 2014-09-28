@@ -337,11 +337,11 @@ def get_listings(category, location_ids, itemgroup_ids):
 	# 	('A', 'Textbook')
 	# 	('B', 'Tickets')
 	# )
-	results = []
+	results = {}
 	# textbooks
 	if category == 'A':
 		results = serializers.serialize('python',
-			Textbook.objects.filter())
+			Textbook.objects.in_bulk(location_ids))
 
 		# print results
 
