@@ -135,16 +135,16 @@ def api_request(request, action):
 
 		# top level category 
 
-		# category = request.GET.get('category', '')
-		# subgroup_pk = request.GET.get('subgroup', '')
-		# location_pk = int(request.GET.get('location', ''))
-		# price = float(request.GET.get('price', ''))
+		category = request.GET.get('category', '')
+		subgroup_pk = request.GET.get('subgroup', '')
+		location_pk = int(request.GET.get('location', ''))
+		price = request.GET.get('price', '')
 
-		postdata 		= json.loads(request.body)
-		category 		= postdata['category']
-		# subgroup_pk 	= postdata['subgroup']
-		location_pk 	= postdata['location']
-		price 			= postdata['price']
+		# postdata 		= json.loads(request.body)
+		# category 		= postdata['category']
+		# # subgroup_pk 	= postdata['subgroup']
+		# location_pk 	= postdata['location']
+		# price 			= postdata['price']
 
 		try:
 			loc = Location.objects.filter(pk = location)
@@ -154,13 +154,15 @@ def api_request(request, action):
 
 
 		if category == 'A':
-			# author = request.GET.get('author', '')
-			# isbn = request.GET.get('isbn', '')
-			# title = request.GET.get('title', '')
-			author		= postdata['author']
-			isbn		= int(postdata['isbn'])
-			title		= postdata['title']
-			condition	= int(postdata['condition'])
+			author = request.GET.get('author', '')
+			isbn = request.GET.get('isbn', '')
+			title = request.GET.get('title', '')
+			condition = int(request.GET.get('condition', ''))
+
+			# author		= postdata['author']
+			# isbn		= int(postdata['isbn'])
+			# title		= postdata['title']
+			# condition	= int(postdata['condition'])
 
 
 			tb = Textbook()
@@ -190,9 +192,74 @@ def api_request(request, action):
 			tx.date = event_date
 			tx.save()
 
+		return HttpResponse('cool dude')
+
 	
 	elif action == 'lookupisbn':
 		pass
+	elif action == 'search':
+		query = request.GET.get('q', '')
+		category = request.GET.get('category', '')
+
+		textbook_count = 0
+		ticket_count = 0
+
+		textbooks = []
+		tickets = []
+		for tb in Textbook.objects.all():
+			if (len(re.findall(query, tb.title, re.IGNORECASE)) > 0 or 
+				len(re.findall(query, tb.author, re.IGNORECASE)) > 0 or
+				len(re.findall(query, str(tb.isbn), re.IGNORECASE)) > 0:
+				textbooks.append(tb)
+		
+		for tx in Ticket.objects.all():
+			if (len(re.findall(query, tx.event, re.IGNORECASE)) > 0:
+				tickets.append(tx)
+				
+
+		results = {}
+
+		if category =='A':
+			results['listings'] = serializers.serialize('python',
+				textbooks,
+				fields=(
+					'condition',
+					'author',
+					'isbn',
+					'title',
+					)
+				)
+
+			results['other'] = len(tickets)
+
+			
+		if category =='B':
+			results['listings'] = serializers.serialize('python',
+				tickets,
+				fields=(
+					'condition',
+					'author',
+					'isbn',
+					'title',
+					)
+				)
+
+			results['other'] = len(textbooks)
+
+		
+		
+		jsondata = json.dumps({
+			'listings' : results['listings'],
+			'others' : results['others'],
+			})
+		return HttpResponse(jsondata, content_type='application/json')
+
+
+
+
+
+
+
 
 def request_log_out(request):
 	django.contrib.auth.logout(request)
