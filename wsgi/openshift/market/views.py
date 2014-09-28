@@ -213,7 +213,7 @@ def api_request(request, action):
 				textbooks.append(tb)
 		
 		for tx in Ticket.objects.all():
-			if (len(re.findall(query, tx.event, re.IGNORECASE)) > 0:
+			if (len(re.findall(query, tx.event, re.IGNORECASE)) > 0):
 				tickets.append(tx)
 				
 
@@ -230,7 +230,7 @@ def api_request(request, action):
 					)
 				)
 
-			results['other'] = len(tickets)
+			results['other'] = '%i results in Tickets...' % len(tickets)
 
 			
 		if category =='B':
@@ -244,7 +244,7 @@ def api_request(request, action):
 					)
 				)
 
-			results['other'] = len(textbooks)
+			results['other'] = '%i results in Textbooks...' % len(textbooks)
 
 		
 		
