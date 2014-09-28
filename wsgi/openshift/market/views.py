@@ -73,8 +73,8 @@ def api_request(request, action):
 
 
 		
-		results = {}
 
+		results = {}
 		# top level category 
 		category 		= request.GET.get('category', '')
 
@@ -104,14 +104,14 @@ def api_request(request, action):
 		results['listings'] = get_listings(category)
 		
 		results['user_locations'] = request.user.userprofile.locations
+
 		results['user_itemgroups'] = request.user.userprofile.groups
-
 		
-
-
 		jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
+			'user_locations' : results['user_locations'],
+			'user_itemgroups' : results['user_itemgroups'],
 			}, default=dthandler)
 
 		return HttpResponse(jsondata, content_type='application/json')
@@ -185,9 +185,6 @@ def api_request(request, action):
 			tx.date = event_date
 			tx.save()
 
-	elif action == 'setpreferences':
-
-	elif action == 'setpreferences':
 
 
 
