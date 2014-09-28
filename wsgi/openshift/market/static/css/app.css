@@ -27,25 +27,49 @@ body form .checkbox-text {
 	/*clear: both;*/
 }
 
-h2 {
-	font-size: 2.0em;
-	font-weight: 300;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: inherit;
+  font-weight: 300;
+  line-height: 1.1;
+  color: inherit;
+}
 
+.h3 {
+  margin-top: 10px;
+}
+
+.panel-body {
+	padding-left: 30px;
+}
+.sidebar-nav h2 {
+	/*font-size: 2.0em;*/
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-top: 10px;
 	padding-bottom: 10px
 }
 
-.dropdown {
+
+#sortby {
 	font-size: 1.7em;
 	font-weight: 300;
 
 	float: left;
 	list-style: none;
-	/*margin-top: 25px;*/
+	margin-top: 25px;
+	margin-bottom: 25px;
 }
-
 
 
 
@@ -61,7 +85,14 @@ h2 {
 }
 
 .container-fluid {
+	/*height: 60px;*/
 	padding: 0px;
+	/*padding-top: 10px;*/
+
+}
+
+.collapse.navbar-collapse {
+	height: 100% !important;
 }
 
 .well {
@@ -100,4 +131,61 @@ input[type='checkbox']:checked {
 .modal-body select {
 	float: right;
 	width: 400px;
+}
+
+#searchBox {
+	position: absolute;
+	left: 250px;
+	top: 15%;
+	width: 250px;
+}
+#resultDescription {
+	position: absolute;
+	left: 510px !important;
+	top: 15%;
+	left: 35%;
+}
+
+
+
+/*media queries*/
+@media all and (max-width: 4000px) and (min-width: 770px) {
+	.navbar-links {
+		display: none;
+		visibility:hidden
+	}
+}
+
+@media all and (max-width: 1200px) and (min-width: 0px) {
+	#resultDescription {
+		display: none;
+		visibility:hidden
+	}
+}
+
+@media all and (max-width: 770px) and (min-width: 0px) {
+	#resultDescription {
+		display: none;
+		visibility:hidden
+	}
+	#searchBox {
+		display: none;
+		visibility:hidden
+	}
+
+	.dropdown {
+		float: right;
+	}
+
+	.navbar-links {
+		padding-right: 50px;
+		float: right;
+		color: #777 !important;
+	}
+
+	.navbar-collapse.collapse.in {
+		/*background: #333;*/
+	}
+
+
 }

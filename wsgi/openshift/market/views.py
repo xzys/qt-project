@@ -345,26 +345,14 @@ def get_listings(category):
 	# textbooks
 	if category == 'A':
 		result = serializers.serialize('python',
-			Textbook.objects.filter(),
-			fields=(
-				'condition',
-				'author',
-				'isbn',
-				'title',
-				)
-			)
+			Textbook.objects.filter())
 
 		# SORTING HERE
 
 	# tickets
 	elif category == 'B':
 		result = serializers.serialize('python',
-			Ticket.objects.filter(),
-			fields=(
-				'event',
-				'date',
-				)
-			)
+			Ticket.objects.filter())
 
 		# SORTING HERE
 
