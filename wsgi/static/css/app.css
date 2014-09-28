@@ -98,12 +98,21 @@ h6,
 
 .collapse.navbar-collapse {
 	height: 100% !important;
+	/*background: #e5c8b2;*/
+	background: #3b7896;
 }
 
 .well {
 	margin-bottom: 0px;
 }
 
+.navbar-default .navbar-brand {
+	color: #fff;
+}
+
+.navbar-default .navbar-brand:hover {
+	color: #999;
+}
 .sort-line {
 	margin-bottom: 20px;
 	margin-left: 20px;
@@ -145,6 +154,10 @@ input[type='checkbox']:checked {
 	width: 400px;
 }
 
+a {
+	color: tomato;
+}
+
 #searchBox {
 	position: absolute;
 	left: 250px;
@@ -156,8 +169,25 @@ input[type='checkbox']:checked {
 	left: 510px !important;
 	top: 15%;
 	left: 35%;
+	color: #eee !important;
 }
 
+.sort-line a.dropdown-toggle {
+	color: #ccc !important;
+}
+
+.btn-primary {
+	background: #26475c;
+	border: 1px #333 solid;
+}
+
+.btn-primary:hover {
+	background: #284e66;
+}
+
+#sidebar-wrapper {
+	background: tomato;
+}
 
 
 /*media queries*/
