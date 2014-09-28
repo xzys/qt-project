@@ -46,4 +46,7 @@ $(document).ready(function() {
 	$("#SignOut").click(function() {
 		requestSignOut();
 	});
+
+	$(".success_message").delay(100).fadeOut(1000)
+
 });
