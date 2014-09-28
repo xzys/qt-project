@@ -4,19 +4,18 @@ function displayListings(result) {
 	listingsElement.empty();
 	for (i=0;i<result.length;i++) {
 		var fields = result[i].fields;
-		console.log(fields);
 		var toAppend = '';
-		
+		// fields.title = 'Organic Chemistry As a Second Language, 3e: First Semester Topics';
+		fields.author = 'Janice Gorzynski Smith';
 		if (categoryType == 'A') {
-
 			toAppend = [
 			'<div class="panel panel-default">',
 				'<div class="panel-body" style="margin: auto;">',
-				'<div style="float:left;  width:70%;;overflow:hidden; height: 100px">',
-					'<h2>' + fields.title + '</h3>',
-					'<h4 style="font-weight:500">' + 'Author' + '</h4>',
+				'<div style="float:left;  width:70%;;overflow:hidden; overflow: hidden">',
+					'<h2>' + fields.title + '</h2>',
+					'<h4 style="font-weight:500">' + fields.author + '<span style="float: right; font-weight:100">ISBN: ' + fields.isbn + '</span></h4>',
 				'</div>',
-				'<div style="text-align: right; font-size: 3em; font-weight:100; float:left; width:30%; ;overflow:hidden; height: 100px">' + '10$' + '</div>',
+				'<div style="text-align: right; font-size: 3.2em; font-weight:100; float:right; width:30%; ;overflow:hidden; height: 100px">' + '$10' + '</div>',
 			'<br></div></div></div>',
 			].join('\n');
 			

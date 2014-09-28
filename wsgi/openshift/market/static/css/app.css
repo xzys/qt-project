@@ -49,6 +49,10 @@ h6,
   margin-top: 10px;
 }
 
+.panel {
+	margin-bottom: 0px;
+}
+
 .panel-body {
 	padding-left: 30px;
 }
@@ -67,7 +71,7 @@ h6,
 
 	float: left;
 	list-style: none;
-	margin-top: 25px;
+	margin-top: 15px;
 	margin-bottom: 25px;
 }
 
@@ -99,9 +103,14 @@ h6,
 	margin-bottom: 0px;
 }
 
+.sort-line {
+	margin-bottom: 20px;
+}
+
 .sort-line h1 {
 	font-size: 2.0em;
 	font-weight: 300;
+
 }
 
 
@@ -124,6 +133,7 @@ input[type='checkbox']:checked {
 #postListingBtn {
 	margin-top: 20px;
 	margin-right: 6px;
+	margin-bottom: 20px;
 	float: right;
 }
 
