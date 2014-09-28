@@ -81,8 +81,8 @@ def api_request(request, action):
 
 		# filters that they have given
 		# filters will be empty on first request
-		location_ids	= request.GET.get('locations', '')
-		itemgroup_ids	= [s.strip() for s in request.GET.get('itemgroups', '').split(',')]
+		location_ids	= [int(s.strip()) for s in request.GET.get('locations', '').split(',') if s is not '']
+		itemgroup_ids	= [int(s.strip()) for s in request.GET.get('itemgroups', '').split(',') if s is not '']
 		sort_by			= request.GET.get('sort', '')
 
 
