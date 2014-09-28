@@ -113,3 +113,15 @@ input[type='checkbox']:checked {
 	top: 15%;
 	left: 35%;
 }
+
+#postListingBtn {
+	margin-top: 4px;
+	margin-right: 6px;
+	float: right;
+}
+
+.modal-body input,
+.modal-body select {
+	float: right;
+	width: 400px;
+}
