@@ -23,7 +23,7 @@ dthandler = lambda obj: (obj.isoformat()
 						else None)
 # backend views
 
-@login_required
+# @login_required
 def api_request(request, action):
 	"""this will give you all the listings in the current view
 
@@ -140,7 +140,7 @@ def api_request(request, action):
 		# price = float(request.GET.get('price', ''))
 		postdata 		= json.loads(request.body)
         category 		= postdata['category']
-        subgroup_pk 	= postdata['subgroup']
+        # subgroup_pk 	= postdata['subgroup']
         location_pk 	= postdata['location']
         price 			= postdata['price']
 
@@ -156,22 +156,25 @@ def api_request(request, action):
 			# isbn = request.GET.get('isbn', '')
 			# title = request.GET.get('title', '')
 			author		= postdata['author']
-			isbn		= postdata['isbn']
+			isbn		= int(postdata['isbn'])
 			title		= postdata['title']
+			condition	= int(postdata['condition'])
 
 
 			tb = Textbook()
 			tb.seller = request.user
-			tb.price = round(random.random() * 100, 2)
-			tb.condition = 'C' + str(random.choice(range(5)))
-			tb.isbn = str(random.random() * 10000 )
-			tb.title = 'Intro to ' + titles[random.choice(range(len(titles)))]
+			tb.price = float(price)
+			tb.condition = 'C' + str(condition)
+			tb.isbn = isbn
+			
+			tb.title = title
 			tb.location = loc
 			tb.save()
 
 		elif category == 'B':
-			event = request.GET.get('event', '')
-			event_date = datetime.datetime(*map(int, re.split('[^\d]', s)[:-1]))
+			event = postdata['event']
+			event_date = datetime.datetime(*map(request.GET.get('event_date', ''), \
+				re.split('[^\d]', s)[:-1]))
 			
 			# make sure you get the date like this in your js app
 			# var date = new Date();
@@ -184,7 +187,9 @@ def api_request(request, action):
 			tx.event = ItemGroup.objects.filter(pk=subgroup_pk)[0].name
 			tx.date = event_date
 			tx.save()
-
+	
+	elif action == 'lookupisbn':
+		pass
 
 
 
