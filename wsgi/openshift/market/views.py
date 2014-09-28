@@ -14,7 +14,7 @@ from django.core import serializers
 from django.contrib.auth.hashers import make_password
 import datetime
 from  django.contrib.sessions.models import Session
-import random, json, datetime
+import random, json, datetime, re
 import django.contrib.auth
 from django.contrib import messages
 
@@ -250,7 +250,7 @@ def api_request(request, action):
 		
 		jsondata = json.dumps({
 			'listings' : results['listings'],
-			'others' : results['others'],
+			'others' : results['other'],
 			})
 		return HttpResponse(jsondata, content_type='application/json')
 
