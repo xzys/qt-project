@@ -143,8 +143,4 @@ $(document).ready(function() {
 		// if textbox == null, then hide resultDescription
 		search();
 	});
-
-	$("#SignOut").click(function() {
-		requestSignOut();
-	});
 });

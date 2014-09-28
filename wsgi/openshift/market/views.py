@@ -248,8 +248,9 @@ def api_request(request, action):
 
 
 def request_log_out(request):
-	django.contrib.auth.logout(request)
 	print "ADDING MESSAGES"
+	django.contrib.auth.logout(request)
+	
 	messages.add_message(request,messages.SUCCESS,"Log Out Successful")
 	return redirect("/login/")
 
@@ -314,6 +315,7 @@ def home(request, category):
 	session = Session.objects.get(session_key=request.session.session_key)
 	uid = session.get_decoded().get('_auth_user_id')
 	user = User.objects.get(pk=uid)
+	print user.username
 
 	context = { 
 		'subgroups' : (
