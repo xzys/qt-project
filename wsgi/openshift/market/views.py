@@ -246,7 +246,7 @@ def api_request(request, action):
 def request_log_out(request):
 	django.contrib.auth.logout(request)
 	
-	messages.add_message(request,messages.SUCCESS,"Log Out Successful")
+	messages.add_message(request,messages.SUCCESS,"LOG OUT SUCCESSFUL")
 	return redirect("/login/")
 
 
