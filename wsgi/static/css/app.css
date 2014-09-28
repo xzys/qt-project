@@ -18,6 +18,7 @@ body {
 body form {
 	font-weight: 300;	
 	font-size: 1.1em;
+
 	margin-bottom: 5px;
 }
 
@@ -26,19 +27,177 @@ body form .checkbox-text {
 	/*clear: both;*/
 }
 
-h2 {
-	font-size: 2.0em;
-	font-weight: 300;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: inherit;
+  font-weight: 300;
+  line-height: 1.1;
+  color: inherit;
+}
+
+.h3 {
+  margin-top: 10px;
+}
+
+.panel {
+	/*margin-bottom: 0px;*/
+}
+
+.panel-body {
+	padding-left: 30px;
+	padding-right: 20px;
+}
+.sidebar-nav h2 {
+	/*font-size: 2.0em;*/
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-top: 10px;
 	padding-bottom: 10px
 }
 
-.navbar-collapse {
-	width: 100%;
+
+#sortby {
+	font-size: 1.7em;
+	font-weight: 300;
+
+	float: left;
+	list-style: none;
+	margin-top: 15px;
+	margin-bottom: 25px;
+}
+
+
+
+.navbar-header {
+	font-size: 2.0em;
+	font-weight: 300;
+	line-height: 1.42857143;
+	padding-left: 25px;
+}
+
+.navbar-right {
+	padding-right: 25px;
 }
 
 .container-fluid {
+	/*height: 60px;*/
 	padding: 0px;
+	/*padding-top: 10px;*/
+
+}
+
+.collapse.navbar-collapse {
+	height: 100% !important;
+}
+
+.well {
+	margin-bottom: 0px;
+}
+
+.sort-line {
+	margin-bottom: 20px;
+	margin-left: 20px;
+}
+
+.sort-line h1 {
+	font-size: 2.0em;
+	font-weight: 300;
+
+}
+
+
+
+input[type='checkbox'] {
+    -webkit-appearance:none;
+    width:10px;
+    height:10px;
+
+    /*background:white;*/
+    
+    border-radius:5px;
+    border:1px solid #555;
+}
+
+input[type='checkbox']:checked {
+    background: tomato;
+}
+
+#postListingBtn {
+	margin-top: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	float: right;
+}
+
+.modal-body input,
+.modal-body select {
+	float: right;
+	width: 400px;
+}
+
+#searchBox {
+	position: absolute;
+	left: 250px;
+	top: 15%;
+	width: 250px;
+}
+#resultDescription {
+	position: absolute;
+	left: 510px !important;
+	top: 15%;
+	left: 35%;
+}
+
+
+
+/*media queries*/
+@media all and (max-width: 4000px) and (min-width: 770px) {
+	.navbar-links {
+		display: none;
+		visibility:hidden
+	}
+}
+
+@media all and (max-width: 1200px) and (min-width: 0px) {
+	#resultDescription {
+		display: none;
+		visibility:hidden
+	}
+}
+
+@media all and (max-width: 770px) and (min-width: 0px) {
+	#resultDescription {
+		display: none;
+		visibility:hidden
+	}
+	#searchBox {
+		display: none;
+		visibility:hidden
+	}
+
+	.dropdown {
+		float: right;
+	}
+
+	.navbar-links {
+		padding-right: 50px;
+		float: right;
+		color: #777 !important;
+	}
+
+	.navbar-collapse.collapse.in {
+		/*background: #333;*/
+	}
+
+
 }

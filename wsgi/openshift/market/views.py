@@ -98,12 +98,12 @@ def api_request(request, action):
 			print locations
 
 
-
 		results['listings'] = get_listings(category, location_ids, itemgroup_ids)
 		results['user_locations'] = request.user.userprofile.locations
 		results['user_itemgroups'] = request.user.userprofile.groups
 		results['filters'] = serializers.serialize('python', ItemGroup.objects.filter(type=category))
 
+		# print results['listings']
 		jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
@@ -219,6 +219,11 @@ def api_request(request, action):
 			results['listings'] = serializers.serialize('python',
 				textbooks)
 
+			for r in results['listings']:
+				r['fields']['item'] = serializers.serialize('python', 
+                    [Item.objects.get(textbook=Textbook.objects.get(pk=r['pk']))]
+                                )[0]
+
 			results['other'] = '%i results in Textbooks / %i results in Tickets' % (len(textbooks), len(tickets))
 
 			
@@ -226,8 +231,27 @@ def api_request(request, action):
 			results['listings'] = serializers.serialize('python',
 				tickets)
 
+			for r in results['listings']:
+				r['fields']['item'] = serializers.serialize('python', 
+                    [Item.objects.get(ticket=Ticket.objects.get(pk=r['pk']))]
+                                )[0]
+
+
 			results['other'] = '%i results in Tickets / %i results in Textbooks' % (len(tickets), len(textbooks))
 
+		# for all of the items
+		for r in results['listings']: 
+			# fix decimal field
+			r['fields']['item']['fields']['price'] = float(r['fields']['item']['fields']['price'])
+			# get seller fields
+			r['fields']['item']['fields']['seller'] = serializers.serialize('python', 
+		            [User.objects.get(pk=r['fields']['item']['fields']['seller'])],
+		            fields=(
+		            	'username',
+		            	'first_name',
+		            	'last_name',
+		            	'email',
+		            	))[0]
 		
 		
 		jsondata = json.dumps({
@@ -389,10 +413,17 @@ def get_listings(category, location_ids, itemgroup_ids):
 			r['fields']['item'] = serializers.serialize('python', 
                     [Item.objects.get(ticket=Ticket.objects.get(pk=r['pk']))]
                                 )[0]
+
+
+
+
 		# SORTING HERE
 
 	# for all of the items
 	for r in results: 
+		# fix decimal field
+		r['fields']['item']['fields']['price'] = float(r['fields']['item']['fields']['price'])
+		# get seller fields
 		r['fields']['item']['fields']['seller'] = serializers.serialize('python', 
 	            [User.objects.get(pk=r['fields']['item']['fields']['seller'])],
 	            fields=(
