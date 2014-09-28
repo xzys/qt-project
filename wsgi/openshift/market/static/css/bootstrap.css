@@ -2412,8 +2412,10 @@ input[type="month"].input-lg {
   margin-bottom: 10px;
 }
 .radio label,
-.checkbox label {
+.checkbox label {/*
   padding-left: 20px;
+  padding-right: 20px;*/
+  padding: 20px;
   margin-bottom: 0;
   font-weight: normal;
   cursor: pointer;
@@ -2443,6 +2445,7 @@ input[type="month"].input-lg {
 .checkbox-inline + .checkbox-inline {
   margin-top: 0;
   margin-left: 10px;
+  margin-right: 10px;
 }
 input[type="radio"][disabled],
 input[type="checkbox"][disabled],
@@ -4979,6 +4982,8 @@ a.list-group-item-danger.active:focus {
 }
 .panel {
   margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
   background-color: #fff;
   border: 1px solid transparent;
   border-radius: 1px;
@@ -5330,8 +5335,13 @@ a.list-group-item-danger.active:focus {
   border-color: rgba(0, 0, 0, .15);
 }
 .well-lg {
-  padding: 24px;
+  padding-top: 20px;
+  padding-left: 26px;
+  padding-right: 26px;
+  padding-bottom: 25px;
   border-radius: 6px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .well-sm {
   padding: 9px;

@@ -55,6 +55,7 @@ h6,
 
 .panel-body {
 	padding-left: 30px;
+	padding-right: 20px;
 }
 .sidebar-nav h2 {
 	/*font-size: 2.0em;*/
@@ -105,6 +106,7 @@ h6,
 
 .sort-line {
 	margin-bottom: 20px;
+	margin-left: 20px;
 }
 
 .sort-line h1 {
@@ -117,8 +119,8 @@ h6,
 
 input[type='checkbox'] {
     -webkit-appearance:none;
-    width:20px;
-    height:20px;
+    width:10px;
+    height:10px;
 
     /*background:white;*/
     
@@ -132,7 +134,7 @@ input[type='checkbox']:checked {
 
 #postListingBtn {
 	margin-top: 20px;
-	margin-right: 6px;
+	margin-right: 20px;
 	margin-bottom: 20px;
 	float: right;
 }
