@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
 
+ITEM_TYPES = (
+	('A', 'Textbook'),
+	('B', 'Tickets'),
+)
+
 
 class UserProfile(models.Model):
 	# simple reference to django User
@@ -24,6 +29,8 @@ class UserProfile(models.Model):
 
 class Location(models.Model):
 	name 		= models.CharField(max_length=100)
+	type 		= models.CharField(max_length=2, choices=ITEM_TYPES)
+
 	lattitude 	= models.FloatField()
 	longitude 	= models.FloatField()
 
@@ -48,11 +55,6 @@ class Offer(models.Model):
 
 ############### ITEMS ######################
 class ItemGroup(models.Model):
-	ITEM_TYPES = (
-		('A', 'Textbook'),
-		('B', 'Tickets'),
-	)
-
 	name 		= models.CharField(max_length=100)
 	type 		= models.CharField(max_length=2, choices=ITEM_TYPES)
 
