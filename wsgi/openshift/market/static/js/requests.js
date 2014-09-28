@@ -20,7 +20,6 @@ function displayListings(result) {
 			'<br></div></div></div>',
 			].join('\n');
 			
-			
 			// toAppend = toAppend + fields.title;
 			// toAppend = toAppend + '<span class="centerAlign">$50</span>';
 			// toAppend = toAppend + '<br>' + fields.isbn;
@@ -28,17 +27,17 @@ function displayListings(result) {
 			// toAppend = toAppend + '<br>' + fields.condition;
 		
 		} else if (categoryType == 'B') {
+			toAppend = '<div class="panel panel-default"><div class="panel-body">';
 			toAppend = toAppend + fields.event;
 			toAppend = toAppend + '<span class="centerAlign">$10</span>';
 			var date = new Date(fields.date);
 			toAppend = toAppend + '<br>' + date.toLocaleString("en-US");
 			toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
+			toAppend = toAppend + '<br></div></div>';
 		}
-		toAppend = toAppend + '<br></div></div></div>';
 		listingsElement.append(toAppend);
 	}
 }
-
 
 function search() {
 	var query = $("#searchBox").val();
@@ -71,10 +70,6 @@ function requestListings (category) {
 		}
 	);
 }
-
-
-
-
 
 function requestSignOut(){
 	window.location.href = "http://localhost:8000/logout";
@@ -129,13 +124,13 @@ $(document).ready(function() {
 		categoryType = 'A';
 		$("#postListingBtn").html($("#postListingBtn").html() + "Textbook");
 		$("#myModalLabel").html($("#myModalLabel").html() + "Textbook");
-		$("#textbooks").addClass("activeCategory");
+		$(".textbooks").addClass("activeCategory");
 		postMods = ["ISBN", "Book Title", "Author", "Condition"];
 	} else if (pathName.indexOf("tickets") != -1) {
 		categoryType = 'B';
 		$("#postListingBtn").html($("#postListingBtn").html() + "Ticket");
 		$("#myModalLabel").html($("#myModalLabel").html() + "Ticket");
-		$("#tickets").addClass("activeCategory");
+		$(".tickets").addClass("activeCategory");
 		postMods = ["Event", "Date"];
 	}
 
@@ -163,5 +158,9 @@ $(document).ready(function() {
 	$('#searchBox').keyup(function () { 
 		// if textbox == null, then hide resultDescription
 		search();
+	});
+
+	$('.panel-body').click(function() {
+		alert("click");
 	});
 });
