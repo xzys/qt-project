@@ -236,7 +236,7 @@ def api_request(request, action):
 		
 		jsondata = json.dumps({
 			'listings' : results['listings'],
-			'others' : results['other'],
+			'other' : results['other'],
 			}, default=dthandler)
 		return HttpResponse(jsondata, content_type='application/json')
 
