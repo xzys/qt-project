@@ -65,7 +65,8 @@ class ItemGroup(models.Model):
 class Item(models.Model):
 	seller		= models.ForeignKey(User, related_name='r+')
 	price		= models.DecimalField(max_digits=6, decimal_places=2)
-	location 	= models.ForeignKey(Location, related_name='k+')
+	location 	= models.ForeignKey(Location, related_name='k+', null=True, blank=False)
+	ItemGroup 	= models.ForeignKey(ItemGroup, related_name='l+', null=True, blank=False)
 
 class Textbook(Item):
 	CONDITION_CHOICES = (

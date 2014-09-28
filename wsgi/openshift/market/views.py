@@ -337,11 +337,27 @@ def get_listings(category, location_ids, itemgroup_ids):
 	# 	('A', 'Textbook')
 	# 	('B', 'Tickets')
 	# )
-	results = {}
+	results = []
 	# textbooks
 	if category == 'A':
+		textbooks = []
+		if len(location_ids) + len(itemgroup_ids) is 0:
+			textbooks = Textbook.objects.all()
+
+
+		else:
+			for tb in Textbook.objects.all():
+				for loc in location_ids:
+					if tb.item_ptr.location == Location.objects.get(pk=loc):
+						textbooks.append(tb)
+						continue
+
+				for ig in itemgroup_ids:
+					if tb.location == Location.objects.get(pk=ig):
+						textbooks.append(tb)
+
 		results = serializers.serialize('python',
-			Textbook.objects.in_bulk(location_ids))
+				textbooks)
 
 		# print results
 
@@ -353,8 +369,22 @@ def get_listings(category, location_ids, itemgroup_ids):
 
 	# tickets
 	elif category == 'B':
+		tickets = []
+		if len(location_ids) + len(itemgroup_ids) is 0:
+			tickets = Ticket.objects.all()
+
+		else:
+			for tx in Ticket.objects.all():
+				for loc in location_ids:
+					if tx.item_ptr.location == Location.objects.get(pk=loc):
+						tickets.append(tx)
+						continue
+
+				for ig in itemgroup_ids:
+					if tx.location == Location.objects.get(pk=ig):
+						tickets.append(tx)
 		results = serializers.serialize('python',
-			Ticket.objects.filter())
+			tickets)
 
 		for r in results:
 			r['fields']['item'] = serializers.serialize('python', 
