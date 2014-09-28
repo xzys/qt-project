@@ -223,14 +223,14 @@ def api_request(request, action):
 			results['listings'] = serializers.serialize('python',
 				textbooks)
 
-			results['other'] = '%i results in Tickets...' % len(tickets)
+			results['other'] = '%i results in Textbooks / %i results in Tickets' % (len(textbooks), len(tickets))
 
 			
 		if category =='B':
 			results['listings'] = serializers.serialize('python',
 				tickets)
 
-			results['other'] = '%i results in Textbooks...' % len(textbooks)
+			results['other'] = '%i results in Tickets / %i results in Textbooks' % (len(tickets), len(textbooks))
 
 		
 		
