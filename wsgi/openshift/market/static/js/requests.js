@@ -6,7 +6,7 @@ function displayListings(result) {
 		var fields = result[i].fields;
 		var toAppend = '<div class="panel panel-default"><div class="panel-body">';
 		if (categoryType == 'A') {
-			toAppend = toAppend + '<h1>' + fields.title '</h1>';
+			toAppend = toAppend + fields.title;
 			toAppend = toAppend + '<span class="centerAlign">$50</span>';
 			toAppend = toAppend + '<br>' + fields.isbn;
 			toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
@@ -50,33 +50,7 @@ function requestListings (category) {
 		'http://localhost:8000/api/getjson', 
 		{ category: category },
 	    function(result) {
-<<<<<<< Updated upstream
-	    	var listingsResponse = result.listings;
-			for (i=0;i<listingsResponse.length;i++) {
-				var fields = listingsResponse[i].fields;
-				var toAppend = '<div class="panel panel-default"><div class="panel-body">';
-				if (category == 'A') {
-					toAppend = toAppend + "<span class='h3' style='float:left'>" + fields.title + "</span>" + "<div class = float:right style='width:50%'>" + "<span class='h3' style='float:right'>" + fields.price + "</span>" + "</div>";
-					// toAppend = toAppend + "<span class='h3' style='float:left'>" + fields.title + "</span>";
-					// toAppend = toAppend + "<span style='float:right'>" + fields.price + "</span>";
-					// toAppend = toAppend + "<span class='h3' style='float:right'>" + fields.price + "</span>";
-					// toAppend = toAppend + '<span class="centerAlign">$50</span>';
-					toAppend = toAppend + "<br>" + fields.isbn;
-					toAppend = toAppend + "<br>" + '<span class="centerAlign">North Campus</span>';
-					toAppend = toAppend + "<br>" + fields.condition;
-				} else if (category == 'B') {
-					toAppend = toAppend + fields.event;
-					toAppend = toAppend + '<span class="centerAlign">$10</span>';
-					var date = new Date(fields.date);
-					toAppend = toAppend + '<br>' + date.toLocaleString("en-US");
-					toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
-				}
-				toAppend = toAppend + '<br></div></div></div>';
-				listings.append(toAppend);
-			}
-=======
 	    	displayListings(result.listings);
->>>>>>> Stashed changes
 		}
 	);
 }
