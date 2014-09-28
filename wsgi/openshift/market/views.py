@@ -99,11 +99,11 @@ def api_request(request, action):
 
 
 
-		results['listings'] = get_listings(category)
+		results['listings'] = get_listings(category, location_ids, itemgroup_ids)
 		results['user_locations'] = request.user.userprofile.locations
 		results['user_itemgroups'] = request.user.userprofile.groups
 		results['filters'] = serializers.serialize('python', ItemGroup.objects.filter(type=category))
-		
+
 		jsondata = json.dumps({
 			'filters' : results['filters'],
 			'listings' : results['listings'],
@@ -172,9 +172,9 @@ def api_request(request, action):
 			tb.save()
 
 		elif category == 'B':
-			event = postdata['event']
-			event_date = datetime.datetime(*map(request.GET.get('event_date', ''), \
-				re.split('[^\d]', s)[:-1]))
+			# event = postdata['event']
+			event = request.GET.get('event', '')
+			event_date = datetime.datetime.strptime(request.GET.get('event_date', ''), "%Y-%m-%d")
 			
 			# make sure you get the date like this in your js app
 			# var date = new Date();
@@ -184,7 +184,7 @@ def api_request(request, action):
 			tx.seller = request.user
 			tx.price = price
 			tx.location = loc
-			tx.event = ItemGroup.objects.filter(pk=subgroup_pk)[0].name
+			tx.event = event
 			tx.date = event_date
 			tx.save()
 
@@ -311,6 +311,7 @@ def home(request, category):
 	session = Session.objects.get(session_key=request.session.session_key)
 	uid = session.get_decoded().get('_auth_user_id')
 	user = User.objects.get(pk=uid)
+	# user = request.user
 	print user.username
 
 	context = { 
@@ -323,9 +324,6 @@ def home(request, category):
 				{ 'pk' : 2, 'name' : 'West Campus', 'longitude' : 0.4, 'latitude' : 0.1},
 			 ), 
 		'netid':user.username,
-		# 'filters': ItemGroup.objects.filter(type=category),
-		# 'filters': ItemGroup.objects.filter(type=category),
-		# 'listings' : get_listings(category),
 	}
 
 	context.update(csrf(request))
@@ -333,7 +331,7 @@ def home(request, category):
 
 
 """helper method to get listings"""
-def get_listings(category):
+def get_listings(category, location_ids, itemgroup_ids):
 	# REFERENCE from market.models.Item
 	# ITEM_TYPES = (
 	# 	('A', 'Textbook')
@@ -351,8 +349,6 @@ def get_listings(category):
 			r['fields']['item'] = serializers.serialize('python', 
                     [Item.objects.get(textbook=Textbook.objects.get(pk=r['pk']))]
                                 )[0]
-
-
 		# SORTING HERE
 
 	# tickets
@@ -364,13 +360,17 @@ def get_listings(category):
 			r['fields']['item'] = serializers.serialize('python', 
                     [Item.objects.get(ticket=Ticket.objects.get(pk=r['pk']))]
                                 )[0]
-
 		# SORTING HERE
 
 	# for all of the items
 	for r in results: 
 		r['fields']['item']['fields']['seller'] = serializers.serialize('python', 
-	            [User.objects.get(pk=r['fields']['item']['fields']['seller'])]
-	                        )[0]
+	            [User.objects.get(pk=r['fields']['item']['fields']['seller'])],
+	            fields=(
+	            	'username',
+	            	'first_name',
+	            	'last_name',
+	            	'email',
+	            	))[0]
 	return results
 
