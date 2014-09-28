@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
 
+ITEM_TYPES = (
+	('A', 'Textbook'),
+	('B', 'Tickets'),
+)
+
 
 class UserProfile(models.Model):
 	# simple reference to django User
@@ -24,8 +29,10 @@ class UserProfile(models.Model):
 
 class Location(models.Model):
 	name 		= models.CharField(max_length=100)
+	type 		= models.CharField(max_length=2, choices=ITEM_TYPES)
+
 	lattitude 	= models.FloatField()
-	longitude 	= models.FloatField() 
+	longitude 	= models.FloatField()
 
 	def __unicode__(self):
 		return str(self.longitude) + ', ' + str(self.lattitude)
@@ -34,6 +41,8 @@ class Offer(models.Model):
 	content_type = models.ForeignKey(ContentType)
 	object_id = models.PositiveIntegerField()
 	item = generic.GenericForeignKey('content_type', 'object_id')
+
+
 	buyer        = models.ForeignKey('UserProfile', \
 		related_name = 'd+')
 	seller       = models.ForeignKey('UserProfile',	\
@@ -46,11 +55,6 @@ class Offer(models.Model):
 
 ############### ITEMS ######################
 class ItemGroup(models.Model):
-	ITEM_TYPES = (
-		('A', 'Textbook'),
-		('B', 'Tickets'),
-	)
-
 	name 		= models.CharField(max_length=100)
 	type 		= models.CharField(max_length=2, choices=ITEM_TYPES)
 
@@ -61,6 +65,8 @@ class ItemGroup(models.Model):
 class Item(models.Model):
 	seller		= models.ForeignKey(User, related_name='r+')
 	price		= models.DecimalField(max_digits=6, decimal_places=2)
+	location 	= models.ForeignKey(Location, related_name='k+', null=True, blank=False)
+	ItemGroup 	= models.ForeignKey(ItemGroup, related_name='l+', null=True, blank=False)
 
 class Textbook(Item):
 	CONDITION_CHOICES = (

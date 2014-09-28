@@ -32,7 +32,7 @@ h2 {
     margin-top: 10px;
 }
 .form-atcornell {
-    color: white;
+    color: #B31B1B;
     font-size: 25px;
     text-shadow: 0 0 7px black;
     font-family: 'Lato', sans-serif;
@@ -58,7 +58,7 @@ form button:hover {
     border-color: #9e9e9e;
 }
 
-.laptopimage {
+#laptopimage {
     float: right;
     margin-right: 100px;
     margin-top: 120px;

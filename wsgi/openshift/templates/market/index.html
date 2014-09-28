@@ -3,20 +3,22 @@
 
 <head>
     {% load staticfiles %}
-    {% csrf_token %}
+    <!-- <meta id="csrftoken">{% csrf_token %}</meta> -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Pi Market</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,900' rel='stylesheet' type='text/css'>
+    <title>Pi market</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> -->
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="{% static 'css/simple-sidebar.css' %}" rel="stylesheet">
+    <link href="{% static 'css/app.css' %}" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,46 +30,65 @@
 </head>
 
 <body>
-   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
+    <div class="navbar-header" style = "margin: 0 auto";>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><font size="6">Pi Market</font></a>
+      <a class="navbar-brand" href="#"><font size="6"><span style="color: #fff; background: tomato; border-radius: 25px; padding: 0px 10px 5px 10px; margin-bottom:5px;">&pi;</span> market</font></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        
-      </ul>
-      
+      <!-- <ul class="nav navbar-nav"> -->
+      <!-- </ul> -->
+      <input id="searchBox" type="text" placeholder="Search"/>
+      <span id="resultDescription" hidden="true">Results</span>
+
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">skv24@cornell.edu<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ netid }}<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="#">Settings</a></li>
             <li class="divider"></li>
-            <li><a href="#">Sign out</a></li>
+            <li><a onClick="requestSignOut()">Sign Out</a></li>
           </ul>
         </li>
       </ul>
+      <div class="navbar-links">
+        <a class="textbooks" href="/textbooks">
+            <h3>Textbooks</h3>
+        </a>
+        <a class="tickets" href="/tickets">
+            <h3>Tickets</h3>
+        </a>
+    </div>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+
     <div id="wrapper">
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
+            <ul class="sidebar-nav" style="margin-top: 25px">
                 <li class="sidebar-brand"></li>
-                <li><a href="#"><font size="3">Textbooks</font></a></li>
-                <li><a href="#"><font size="3">Tickets</font></a></li>
+                <li>
+                    <a class="textbooks" href="/textbooks">
+                        <h2>Textbooks</h2>
+                    </a>
+                </li>
+                <li>
+                    <a class="tickets" href="/tickets">
+                        <h2>Tickets</h2>
+                    </a>
+                </li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -78,14 +99,110 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <br><br>
-                        <form id="filters">
-                        </form>
-                        <br><br><br>
-                        <div class="well well-sm">
+                        
+                        <div class="well well-lg">    
+                            <div style="float:left;width:50%">
+                                <div class="dropdown">
+                                    <form id="CategoryFilters" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                        Category
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><input type="checkbox" value="Item 1"/><span class="checkbox-text">Item 1</span></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-2" href="#"><input type="checkbox" value="Item 2"/><span class="checkbox-text">Item 2</span></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-3" href="#"><input type="checkbox" value="Item 3"/><span class="checkbox-text">Item 3</span></a></li>
+                                    </ul>
+                                </form>
+                                </div>
+                            </div>
+                           
+                            <div style="float:right;width:50%">
+                                <div class="dropdown">
+                                    <form id="LocationFilters" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown">
+                                        Location
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+
+                                        {% for filter in filters %}
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><input type="checkbox" value="{{ filter.pk }}"/><span class="checkbox-text">{{ filter.fields.name }}</span></a></li>
+
+                                        {% endfor %}
+                                        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><input type="checkbox" value="North Campus"/><span class="checkbox-text">North Campus</span></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-2" href="#"><input type="checkbox" value="West Campus"/><span class="checkbox-text">West Campus</span></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-3" href="#"><input type="checkbox" value="Collegetown"/><span class="checkbox-text">Collegetown</span></a></li> -->
+                                    </ul>
+                                </form>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                            
+                            <!-- <div class="panel-body"> -->
+<!--                             <span>Type:</span>
+
+                            <form id="filters" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
+                            
+                            {% for subg in subgroups %}
+                                
+                                <input type="checkbox" value="{{ subg.pk }}"/><span class="checkbox-text">{{ subg.name }}</span>
+                                
+                            {% endfor %}
+                            
+                            </form>
+
+                            <span>Location:</span>
+
+                            <form id="locations" class="ac-custom ac-checkbox ac-checkmark" autocomplete="off">
+                            {% for loc in locations %}
+                                <input type="checkbox" value="{{ loc.pk }}"/><span class="checkbox-text">{{ loc.name }}</span>
+                            {% endfor %}
+                            </form> -->
+                            <!-- </div> -->
+
+                        <!-- Button trigger modal -->
+                        <button id="postListingBtn" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Post New </button>
+                        <div class="sort-line">
+
+                            
+                            <li class="dropdown" id="sortby">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort by <span class="caret"></span></a>
+
+                              <ul class="dropdown-menu" role="menu" style="right: 30px;">
+                                <li><a href="#">Price</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Location</a></li>
+                              </ul>
+
+                            </li>
+
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Post New </h4>
+                              </div>
+                              <div class="modal-body">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" onClick="submitPost()" class="btn btn-primary">Post</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- <div class="well well-sm">
                             <form id="filters">
                             </form>
-                        </div>
-                        <br>
+                        </div> -->
+                    
                         <div id="sorts" class="btn-group">
                         </div>
                         <br><br>
@@ -108,48 +225,18 @@
                             </a>
                         </div> -->
 
-                      <!-- Table -->
-                    <!-- <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th data-field="id">Item ID</th>
-                                <th data-field="name">Item Name</th>
-                                <th data-field="price">Item Price</th>
-                            </tr>
-                        </thead>                      
-                    </table> -->
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            Details of item 1
-                            <br>Price
-                            <br>Condition
+                        <!-- Table -->
+                        <!-- <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th data-field="id">Item ID</th>
+                                    <th data-field="name">Item Name</th>
+                                    <th data-field="price">Item Price</th>
+                                </tr>
+                            </thead>                      
+                        </table> -->
+                        <div id="listings">
                         </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            Details of item 2
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            Details of item 3
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            Details of item 4
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            Details of item 5
-                        </div>
-                    </div>
-
 
                     </div>
                     </div>
@@ -165,7 +252,8 @@
     <script src="{% static 'js/jquery-1.11.0.js' %}"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+    <script src="{% static 'js/bootstrap.js' %}"></script>
 
     <!-- Database Requests -->
     <script src="{% static 'js/requests.js' %}"></script>

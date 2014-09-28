@@ -69,6 +69,10 @@
     color: #fff;
 }
 
+.activeCategory {
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
 .sidebar-nav li a:hover {
     text-decoration: none;
     color: #fff;
