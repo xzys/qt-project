@@ -1,4 +1,4 @@
-function requestListings (category) {
+function requestListingsOLD (category) {
 	var listings = $("#listings");
 	$.get(
 		'http://localhost:8000/api/getjson', 
@@ -28,6 +28,10 @@ function requestListings (category) {
 		}
 	);
 }
+
+
+
+
 
 function requestSignOut(){
 	window.location.href = "http://localhost:8000/logout";
