@@ -8,6 +8,9 @@ function displayListings(result) {
 		var toAppend = '';
 		// fields.title = 'Organic Chemistry As a Second Language, 3e: First Semester Topics';
 		fields.author = 'Janice Gorzynski Smith';
+
+		console.log(fields);
+
 		if (categoryType == 'A') {
 			toAppend = [
 			'<div class="panel panel-default">',
@@ -16,24 +19,21 @@ function displayListings(result) {
 					'<h2>' + fields.title + '</h2>',
 					'<h4 style="font-weight:500">' + fields.author + '<span style="float: right; font-weight:100">ISBN: ' + fields.isbn + '</span></h4>',
 				'</div>',
-				'<div style="text-align: right; font-size: 3.2em; font-weight:100; float:right; width:30%; ;overflow:hidden; height: 100px">' + '$10' + '</div>',
+				'<div style="text-align: right; font-size: 3.2em; font-weight:100; float:right; width:30%; ;overflow:hidden; height: 100px">' + fields.item.fields.price + '</div>',
 			'<br></div></div></div>',
 			].join('\n');
-			
-			// toAppend = toAppend + fields.title;
-			// toAppend = toAppend + '<span class="centerAlign">$50</span>';
-			// toAppend = toAppend + '<br>' + fields.isbn;
-			// toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
-			// toAppend = toAppend + '<br>' + fields.condition;
 		
 		} else if (categoryType == 'B') {
-			toAppend = '<div class="panel panel-default"><div class="panel-body">';
-			toAppend = toAppend + fields.event;
-			toAppend = toAppend + '<span class="centerAlign">$10</span>';
-			var date = new Date(fields.date);
-			toAppend = toAppend + '<br>' + date.toLocaleString("en-US");
-			toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
-			toAppend = toAppend + '<br></div></div>';
+			toAppend = [
+			'<div class="panel panel-default">',
+				'<div class="panel-body" style="margin: auto;">',
+				'<div style="float:left;  width:70%;;overflow:hidden; overflow: hidden">',
+					'<h2>' + fields.event + '</h2>',
+					'<h4 style="font-weight:500">' + fields.date.split('T')[0] + '<span style="float: right; font-weight:100">' + '' + '</span></h4>',
+				'</div>',
+				'<div style="text-align: right; font-size: 3.2em; font-weight:100; float:right; width:30%; ;overflow:hidden; height: 100px">' + fields.item.fields.price + '</div>',
+			'<br></div></div></div>',
+			].join('\n');
 		}
 		listingsElement.append(toAppend);
 	}

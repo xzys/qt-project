@@ -125,9 +125,14 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><input type="checkbox" value="North Campus"/><span class="checkbox-text">North Campus</span></a></li>
+
+                                        {% for filter in filters %}
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><input type="checkbox" value="{{ filter.pk }}"/><span class="checkbox-text">{{ filter.fields.name }}</span></a></li>
+
+                                        {% endfor %}
+                                        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><input type="checkbox" value="North Campus"/><span class="checkbox-text">North Campus</span></a></li>
                                         <li role="presentation"><a role="menuitem" tabindex="-2" href="#"><input type="checkbox" value="West Campus"/><span class="checkbox-text">West Campus</span></a></li>
-                                        <li role="presentation"><a role="menuitem" tabindex="-3" href="#"><input type="checkbox" value="Collegetown"/><span class="checkbox-text">Collegetown</span></a></li>
+                                        <li role="presentation"><a role="menuitem" tabindex="-3" href="#"><input type="checkbox" value="Collegetown"/><span class="checkbox-text">Collegetown</span></a></li> -->
                                     </ul>
                                 </form>
                                 </div>
