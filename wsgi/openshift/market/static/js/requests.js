@@ -9,7 +9,7 @@ function displayListings(result) {
 		var toAppend = '';
 		// fields.title = 'Organic Chemistry As a Second Language, 3e: First Semester Topics';
 
-		// console.log(fields);
+		console.log(fields.item.fields.seller.fields);
 
 		if (categoryType == 'A') {
 			// fields.author = 'Janice Gorzynski Smith';
@@ -19,6 +19,7 @@ function displayListings(result) {
 				'<div style="float:left;  width:70%;;overflow:hidden; overflow: hidden">',
 					'<h2>' + fields.title + '</h2>',
 					'<h4 style="font-weight:500">' + fields.author + '<span style="float: right; font-weight:100">ISBN: ' + fields.isbn + '</span></h4>',
+					'<span style="float: left; font-weight:300">' + fields.item.fields.seller.fields.username + '@cornell.edu</span>',
 				'</div>',
 				'<div style="text-align: right; font-size: 3.2em; font-weight:100; float:right; width:30%; ;overflow:hidden; height: 100px">$' + parseInt(fields.item.fields.price) + '</div>',
 			'<br></div></div></div>',
