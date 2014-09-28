@@ -9,8 +9,9 @@ function requestListings (category) {
 				var fields = listingsResponse[i].fields;
 				var toAppend = '<div class="panel panel-default"><div class="panel-body">';
 				if (category == 'A') {
-					toAppend = toAppend + fields.title;
-					toAppend = toAppend + '<span class="centerAlign">$50</span>';
+					toAppend = toAppend + "<span class='h3'>" + fields.title + "</span>";
+					toAppend = toAppend + '<br>' + fields.price;
+					// toAppend = toAppend + '<span class="centerAlign">$50</span>';
 					toAppend = toAppend + '<br>' + fields.isbn;
 					toAppend = toAppend + '<span class="centerAlign">North Campus</span>';
 					toAppend = toAppend + '<br>' + fields.condition;
