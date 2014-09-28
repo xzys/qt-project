@@ -1,6 +1,6 @@
 body {
     background-color: #e74c3c;
-    /*margin-left: 290px;*/
+    margin-left: 180px;
 }
 
 h1, h2, h3 {
@@ -59,14 +59,9 @@ form button:hover {
 }
 
 #laptopimage {
-    position: absolute;
- 
-    height: 75%;
-    width: 60%;
-    right: 5%;
-    top: 12.5%;
-    /*margin-right: 100px;*/
-    /*margin-top: 120px;*/
+    float: right;
+    margin-right: 50px;
+    margin-top: 120px;
 }
 
 .error_message {
