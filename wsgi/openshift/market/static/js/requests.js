@@ -9,14 +9,14 @@ function requestListings (category) {
 				var fields = listingsResponse[i].fields;
 				var toAppend = '<div class="panel panel-default"><div class="panel-body">';
 				if (category == 'A') {
-					toAppend = toAppend + "<div class = float:left style='width:50%'>" + "<span class='h3' style='float:left'>" + fields.title + "</span>" + "</div>" + "<div class = float:right style='width:50%'>" + "<span class='h3' style='float:right'>" + fields.price + "</span>" + "</div>";
+					toAppend = toAppend + "<span class='h3' style='float:left'>" + fields.title + "</span>" + "<div class = float:right style='width:50%'>" + "<span class='h3' style='float:right'>" + fields.price + "</span>" + "</div>";
 					// toAppend = toAppend + "<span class='h3' style='float:left'>" + fields.title + "</span>";
 					// toAppend = toAppend + "<span style='float:right'>" + fields.price + "</span>";
 					// toAppend = toAppend + "<span class='h3' style='float:right'>" + fields.price + "</span>";
 					// toAppend = toAppend + '<span class="centerAlign">$50</span>';
-					toAppend = "<br>" + toAppend + fields.isbn;
-					toAppend = "<br>" + toAppend + '<span class="centerAlign">North Campus</span>';
-					toAppend = "<br>" + toAppend + fields.condition;
+					toAppend = toAppend + "<br>" + fields.isbn;
+					toAppend = toAppend + "<br>" + '<span class="centerAlign">North Campus</span>';
+					toAppend = toAppend + "<br>" + fields.condition;
 				} else if (category == 'B') {
 					toAppend = toAppend + fields.event;
 					toAppend = toAppend + '<span class="centerAlign">$10</span>';
