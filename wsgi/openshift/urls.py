@@ -7,6 +7,7 @@ from django.conf import settings
 urlpatterns = patterns('',
     url(r'^admin[/]?', include(admin.site.urls)),
     url(r'^logout[/]?', 'market.views.request_log_out', name='request_log_out'),
+    url(r'^authrequest/(?P<authtype>(login|register))','market.views.handler_user_auth_request',name='handler_user_auth_request'),
     url(r'^login[/]?', 'market.views.login', name='login'),
     url(r'^post[/]?', 'market.views.post', name='post'),
     url(r'^home[/]?', 'views.home', name='home'),

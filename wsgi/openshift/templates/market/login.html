@@ -14,10 +14,8 @@
     {% load staticfiles %}
 
     <title>Pi Market</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="{% static 'css/grayscale.css' %}" rel="stylesheet">
 
@@ -26,6 +24,7 @@
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -89,19 +88,16 @@
     <section id="about" class="container content-section text-center">
         <!-- <div class="row"> -->
             <h1>log in or register</h1><br><br>
-                <form method='POST' action=''> {% csrf_token %}
-                    {{ form.username }}<span class="form-atcornell"> @cornell.edu</span><br>
+                <form onsubmit="return false"> 
+                    <input id="authentication_csrf_token" type="hidden" value="{{ csrf_token }}"></input>
+                    <input id="netid" class='form-netid' placeholder='Net ID' type='text'></input><span class="form-atcornell"> @cornell.edu</span><br>
                     <br>
-                    {{ form.password }}<br><br>
-                    {% if messages %}
-                    <div class="error_message">
-                        {% for message in messages %}
-                        <h3{% if message.tags == 'error' %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                     <button type="submit" value="Login" name="Login" class="btn">Login</button>
-                     <button type="submit" value="Register" name="Register" class="btn">Register</button>
+                    <input id="password" class='form-password' placeholder='Password' type='password'><br><br>
+                    <div id="reentry_container" style="display:none"><input id="password_re-entry" class='form-password' placeholder='Re-enter Password' type='password'><br><br></div>
+                    <div id="message"></div>
+                    <button id="login_button" type="submit" value="Login" name="Login" onclick="send_login_request()" class="btn">Login</button>
+                    <button id="stage_registration_button" type="submit" value="Register" class="btn" onclick="stage_registration()">Register</button>
+                    <button style="display: none" id="register_button" type="submit" value="Register" name="Register" class="btn" onclick="send_register_request()">TO THE MARKETPLACE!</button>        
                 </form>
         </div>
     </section>
@@ -125,6 +121,7 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'js/grayscale.js' %}"></script>
+    <script src="{% static 'js/login.js' %}"></script>
 
 </body>
 
@@ -133,29 +130,29 @@
 <!-- ======= -->
 <!-- <!DOCTYPE html>
 <html>
-<head>
-	{% load staticfiles %}
-	<title>Pi Market</title>
-	<meta charset="utf-8"/>
-	<link rel='stylesheet' type="text/css" href="{% static 'css/login.css' %}" />
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,900' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<div style="height:20px; color: white; font-size: 30px; font-family: Lato"><span style="color: #fff; background: #0174DF; border-radius: 20px; padding: 0px 10px;">&Pi;</span>Market@Cornell University</div>
-	<img id="laptopimage" src="{% static 'img/laptopimage.jpg' %}"/>
-	<h1>Join the Modern<br>Marketplace</h1>
-	<form method='POST' action=''> {% csrf_token %}
-		{{ form.username }}<span class="form-atcornell"> @cornell.edu</span><br>
-		{{ form.password }}<br>
-		{% if messages %}
-		<div class="error_message">
-    		{% for message in messages %}
-    		<h3{% if message.tags == 'error' %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
-    		{% endfor %}
-		</div>
-		{% endif %}
-		 <button type="submit" value="Login" name="Login" class="btn">Login</button>
-		 <button type="submit" value="Register" name="Register" class="btn">Register</button>
-	</form>
+<head>
+    {% load staticfiles %}
+    <title>Pi Market</title>
+    <meta charset="utf-8"/>
+    <link rel='stylesheet' type="text/css" href="{% static 'css/login.css' %}" />
+    <div style="height:20px; color: white; font-size: 30px; font-family: Lato"><span style="color: #fff; background: #0174DF; border-radius: 20px; padding: 0px 10px;">&Pi;</span>Market@Cornell University</div>
+    <img id="laptopimage" src="{% static 'img/laptopimage.jpg' %}"/>
+    <h1>Join the Modern<br>Marketplace</h1>
+    <form method='POST' action=''> {% csrf_token %}
+        {{ form.username }}<span class="form-atcornell"> @cornell.edu</span><br>
+        {{ form.password }}<br>
+        {% if messages %}
+        <div class="error_message">
+            {% for message in messages %}
+            <h3{% if message.tags == 'error' %} class="{{ message.tags }}"{% endif %}>{{ message }}</h3>
+            {% endfor %}
+        </div>
+        {% endif %}
+         <button type="submit" value="Login" name="Login" class="btn">Login</button>
+         <button type="submit" value="Register" name="Register" class="btn">Register</button>
+    </form>
 </body>
 </html> -->

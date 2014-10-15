@@ -265,7 +265,48 @@ def api_request(request, action):
 
 
 
+def handler_user_auth_request(request, authtype):
+	if authtype == "login":
+		return handle_login(request, request.GET["net_id"], request.GET["password"])
+	elif authtype == "register":
+		return handler_register(request.GET["net_id"], request.GET["password"])
+	else:
+		return None
 
+def handle_login(request, username, password):
+	print "AUTHENTICATING IN LOGIN"
+	auth_json_response = {}
+	user = django.contrib.auth.authenticate(username=username+"@cornell.edu",password=password)
+	if user is None:
+		auth_json_response["login_status"]  = "false"
+		auth_json_response["login_message"] = "Username or password incorrect"
+	else:
+		django.contrib.auth.login(request,user)
+		auth_json_response["login_status"]  = "true"
+		auth_json_response["login_message"] = "login successful"
+	return HttpResponse(json.dumps(auth_json_response, default=dthandler), content_type='application/json')
+	
+
+
+def handler_register(username, password):
+	print "IN REGISTER"
+	auth_json_response = {}
+	try:    # TEST IF USER EXISTS
+		User.objects.get(username=username+"@cornell.edu")
+		auth_json_response["registration_status"]  = "false"
+		auth_json_response["registration_message"] = "Username already exists"
+	except: # EXECUTE IN CONDITION OF NEW USER
+		new_user = User(username=username+"@cornell.edu")
+		# CHECK CORNELL'S DATABASE HERE
+		new_user.save()
+		new_userp = UserProfile()
+		new_userp.user = new_user
+		new_userp.save()
+		auth_json_response["registration_status"]  = "true"
+		auth_json_response["registration_message"] = "Registration successful"
+	finally:
+		print auth_json_response
+		return HttpResponse(json.dumps(auth_json_response, default=dthandler), content_type='application/json')
 
 def request_log_out(request):
 	django.contrib.auth.logout(request)
@@ -293,7 +334,7 @@ def login(request):
 			elif request.POST.get('Register') == 'Register':
 				try: # USER EXISTS
 					User.objects.get(username=form_data['username']+"@cornell.edu")
-					messages.add_message(request,messages.ERROR,'Username already exists, please log in')
+					#messages.add_message(request,messages.ERROR,'Username already exists, please log in')
 					return redirect('/login/')
 				except Exception as e:
 					new_user = User(username=form_data['username']+"@cornell.edu",password=make_password(form_data['password']))
@@ -332,7 +373,6 @@ def home(request, category):
 	uid = session.get_decoded().get('_auth_user_id')
 	user = User.objects.get(pk=uid)
 	# user = request.user
-	print user.username
 
 	context = { 
 		'subgroups' : (
