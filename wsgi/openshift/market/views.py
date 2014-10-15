@@ -267,9 +267,9 @@ def api_request(request, action):
 
 def handler_user_auth_request(request, authtype):
 	if authtype == "login":
-		return handle_login(request, request.GET["net_id"], request.GET["password"])
+		return handle_login(request, request.POST["net_id"], request.POST["password"])
 	elif authtype == "register":
-		return handler_register(request.GET["net_id"], request.GET["password"])
+		return handler_register(request.POST["net_id"], request.POST["password"])
 	else:
 		return None
 

@@ -3,7 +3,7 @@ function send_login_request() {
 	var net_id   = $("#netid").val();
 	var password = $("#password").val();
 	var csrf_token = $("#authentication_csrf_token").val()
-	$.get('/authrequest/login', { 
+	$.post('/authrequest/login', { 
 		               csrfmiddlewaretoken: csrf_token,
 		               net_id:net_id, 
 		               password:password,
@@ -12,6 +12,7 @@ function send_login_request() {
 		              		if (result.login_status == "true") {
 		              			redirect_to_marketplace();
 		              		} else {
+		              			$("#message").empty()
 		              			$("#message").append(result.login_message+"<br><br>");
 		              		}
 						 })
@@ -34,7 +35,7 @@ function send_register_request() {
 	var net_id   = $("#netid").val();
 	var password = $("#password").val();
 	var csrf_token = $("#authentication_csrf_token").val()
-	$.get('/authrequest/register', { 
+	$.post('/authrequest/register', { 
 		               csrfmiddlewaretoken: csrf_token,
 		               net_id:net_id, 
 		               password:password,
@@ -43,6 +44,7 @@ function send_register_request() {
 		              		if (result.registration_status == "true") {
 		              			redirect_to_marketplace();
 		              		} else {
+		              			$("#message").empty()
 		              			$("#message").append(result.registration_message+"<br><br>");
 		              		}
 						 })
