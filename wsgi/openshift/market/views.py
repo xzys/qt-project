@@ -317,6 +317,11 @@ def request_log_out(request):
 
 # frontend views
 
+def request_profile(request):
+	print request
+	user_data = {}
+	return render(request,"market/profile.html",user_data)
+
 def login(request):
 	# POST request
 	if request.method == 'POST':
