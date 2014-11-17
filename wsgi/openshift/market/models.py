@@ -14,7 +14,7 @@ ITEM_TYPES = (
 class UserProfile(models.Model):
 	# simple reference to django User
 	user 		= models.OneToOneField(User, primary_key=True)
-
+	name 		= models.CharField(max_length=100)
 	# Preferences
 	groups 		= models.ManyToManyField('ItemGroup',	\
 		related_name = 'a+',	\

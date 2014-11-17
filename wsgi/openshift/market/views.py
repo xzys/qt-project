@@ -265,49 +265,73 @@ def api_request(request, action):
 
 
 
+def handler_user_auth_request(request, authtype):
+	if authtype == "login":
+		return handle_login(request, request.POST["net_id"], request.POST["password"])
+	elif authtype == "register":
+		return handler_register(request,request.POST["net_id"], request.POST["password"])
+	else:
+		return None
 
+def handle_login(request, username, password):
+	print "AUTHENTICATING IN LOGIN"
+	auth_json_response = {}
+	user = django.contrib.auth.authenticate(username=username+"@cornell.edu",password=password)
+	django.contrib.auth.login(request,user)
+	if user is None:
+		auth_json_response["login_status"]  = "false"
+		auth_json_response["login_message"] = "Username or password incorrect"
+	else:
+		django.contrib.auth.login(request,user)
+		auth_json_response["login_status"]  = "true"
+		auth_json_response["login_message"] = "login successful"
+	return HttpResponse(json.dumps(auth_json_response, default=dthandler), content_type='application/json')
+	
+
+
+def handler_register(request,username, password):
+	print "IN REGISTER"
+	auth_json_response = {}
+	try:    # TEST IF USER EXISTS
+		User.objects.get(username=username+"@cornell.edu")
+		auth_json_response["registration_status"]  = "false"
+		auth_json_response["registration_message"] = "Username already exists"
+	except: # EXECUTE IN CONDITION OF NEW USER
+		# CHECK CORNELL'S DATABASE HERE
+		new_user = User(username=username+"@cornell.edu",password=make_password(password))
+		new_user.save()
+		new_user = django.contrib.auth.authenticate(username=new_user.username,password=password)
+		django.contrib.auth.login(request,new_user)
+		new_userp = UserProfile()
+		new_userp.user = new_user
+		new_userp.save()
+		auth_json_response["registration_status"]  = "true"
+		auth_json_response["registration_message"] = "Registration successful"
+	finally:
+		print auth_json_response
+		return HttpResponse(json.dumps(auth_json_response, default=dthandler), content_type='application/json')
 
 def request_log_out(request):
 	django.contrib.auth.logout(request)
-	
 	messages.add_message(request,messages.SUCCESS,"LOG OUT SUCCESSFUL")
 	return redirect("/login/")
 
 
 # frontend views
 
-def login(request):
-	# POST request
-	if request.method == 'POST':
-		form = UserForm(request.POST)
-		if form.is_valid():
-			form_data = form.cleaned_data
-			if request.POST.get('Login') == 'Login':
-				user = django.contrib.auth.authenticate(username=form_data['username']+"@cornell.edu",password=form_data['password'])
-				if user is not None: # successful log in
-					django.contrib.auth.login(request,user)
-					return redirect('/')
-				else: # Either username or password incorrect
-					messages.add_message(request,messages.ERROR,'Incorrect username or password')
-					return redirect('/login/')
-			elif request.POST.get('Register') == 'Register':
-				try: # USER EXISTS
-					User.objects.get(username=form_data['username']+"@cornell.edu")
-					messages.add_message(request,messages.ERROR,'Username already exists, please log in')
-					return redirect('/login/')
-				except Exception as e:
-					new_user = User(username=form_data['username']+"@cornell.edu",password=make_password(form_data['password']))
-					new_user.save()
-					new_user = django.contrib.auth.authenticate(username=new_user.username,password=form_data['password'])
-					django.contrib.auth.login(request,new_user)
+def request_profile(request):
+	print "IN REQUEST PROFILE"
+	user = User.objects.get(username=request.user)
+	user_data = {}
+	user_data['name']  = user.first_name + user.first_name
+	user_data['email'] = user.username
+	
+	return render(request,"market/profile.html",user_data)
 
-					new_userp = UserProfile()
-					new_userp.user = new_user
-					new_userp.save()
-					return redirect('/')
-	elif request.method == 'GET':
-		form = UserForm()
-		return render(request,"market/login.html",{'form' : form})
+
+
+def login(request):
+	return render(request,"market/login.html")
 
 
 
@@ -327,12 +351,7 @@ def post(request):
 """initial load
 """
 def home(request, category):
-
-	session = Session.objects.get(session_key=request.session.session_key)
-	uid = session.get_decoded().get('_auth_user_id')
-	user = User.objects.get(pk=uid)
 	# user = request.user
-	print user.username
 
 	context = { 
 		'subgroups' : (
@@ -343,7 +362,7 @@ def home(request, category):
 				{ 'pk' : 1, 'name' : 'North Campus', 'longitude' : 0.1, 'latitude' : 0.2},
 				{ 'pk' : 2, 'name' : 'West Campus', 'longitude' : 0.4, 'latitude' : 0.1},
 			 ), 
-		'netid':user.username,
+		'netid':request.user,
 	}
 
 	context.update(csrf(request))
